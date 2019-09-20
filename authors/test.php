@@ -7,14 +7,12 @@
                 <th>ID</th>
                 <th>Author</th>
                 <?php
-                $author = new Author;
-                foreach ($author->fetch() as $data) :
+                $data = array();
+                $keys = [1, 2, 3, 4];
+                foreach ($data as $key => $value) : $keys[':' . $key] = $value;
+                    print_r($keys);
                     ?>
-                    <tr>
-                        <td><?php echo $data->id; ?></td>
-                        <td><?php echo $data->author; ?></td>
-                        <td><a class="btn btn-sm btn-primary" href="edit.php">Edit</a> &nbsp; <a class="btn btn-sm btn-danger" href="delete.php">Delete</a></td>
-                    </tr>
+                    <h1><?php print_r($keys); ?></h1>
                 <?php endforeach; ?>
             </table>
         </div>
