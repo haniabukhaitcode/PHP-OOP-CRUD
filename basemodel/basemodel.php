@@ -17,27 +17,32 @@ class BaseModel
     // we get the values from the array
     public function arrayValues(array $data)
     {
-        $keys = [];
+        $arr = [];
         foreach ($data as $key => $value) {
-            $keys[':' . $key] = $value;
+            $arr[':' . $key] = $value;
         }
-        return $keys;
+        return $arr;
     }
 
     // fetch select
     public function fetch()
     {
         // "select (all the fields in the array and separate them with commas) from (sql table name)"
-        return $this->conn->getConnection()->query("select " . implode(',', $this->fields) . " from " . $this->table)->fetchAll(PDO::FETCH_OBJ);
+        $sql = $this->conn->getConnection()->query("select " . implode(',', $this->fields) . " from " . $this->table)->fetchAll(PDO::FETCH_OBJ);
+        return $sql;
     }
 
     public function insert(array $data)
     {
-        array_shift($this->fields);
-        $fields = implode(', ', $this->fields);
-        $parameters = $this->arrayValues($data);
-        $keys = implode(',', array_keys($parameters));
-        $sql = $this->conn->getConnection()->prepare('insert into ' . $this->table . ' (' . $fields . ') values(' . $keys . ')');
+        array_shift($this->fields);   // [0] => author
+
+        $fields = implode(', ', $this->fields); //author,
+
+        $parameters = $this->arrayValues($data); // { [0]=>"id" [1]=>"author" [":0"]=> NULL [":1"]=> NULL }
+
+        $keys = implode(',', array_keys($parameters));  //"0,1,:0,:1" 
+
+        $sql = $this->conn->getConnection()->prepare("insert into  " . $this->table .  "(' . $fields . ') values(' . $keys . ')");
         $sql->execute($parameters);
         return true;
     }
