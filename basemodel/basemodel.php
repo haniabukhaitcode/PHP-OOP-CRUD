@@ -28,8 +28,12 @@ class BaseModel
     public function fetch()
     {
         // "select (all the fields in the array and separate them with commas) from (sql table name)"
-        $sql = $this->conn->getConnection()->query("select " . implode(',', $this->fields) . " from " . $this->table)->fetchAll(PDO::FETCH_OBJ);
-        return $sql;
+        return $this->conn->getConnection()->query("select " . implode(',', $this->fields) . " from " . $this->table)->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function fetchById(int $id)
+    {
+        return $this->conn->getConnection()->query("select " . implode(',', $this->fields) . " from " . $this->table . " where id = " . $id)->fetchAll(PDO::FETCH_OBJ)[0];
     }
 
     public function insert(array $data)
@@ -45,5 +49,22 @@ class BaseModel
         $sql = $this->conn->getConnection()->prepare("insert into  " . $this->table .  "(' . $fields . ') values(' . $keys . ')");
         $sql->execute($parameters);
         return true;
+    }
+
+    public function update(int $id, array $data)
+    {
+        $stmt = '';
+        foreach ($data as $key => $value) {
+            $stmt .= $key . "='" . $value . "',";
+        }
+        $stmt = rtrim($stmt, ',');
+        $sql = $this->conn->getConnection()->prepare('update ' . $this->table . ' set ' . $stmt . ' where ' . $this->primary_key . ' = ' . $id);
+        $sql->execute();
+        return true;
+    }
+
+    public function delete(int $id)
+    {
+        return $this->conn->getConnection()->exec('delete from ' . $this->table . ' where ' . $this->primary_key . ' = ' . $id);
     }
 }
