@@ -5,9 +5,11 @@
             <?php require_once('../basemodel/tables.php'); ?>
             <table class="table table-dark">
                 <thead>
-                    <th>ID</th>
-                    <th>Author</th>
-                    <th>Actions</th>
+                    <tr>
+                        <th>ID</th>
+                        <th>Author</th>
+                        <th>Actions</th>
+                    </tr>
                 </thead>
                 <tbody>
                     <?php

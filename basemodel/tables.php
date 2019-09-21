@@ -2,16 +2,6 @@
 
 require_once("../basemodel/basemodel.php");
 
-class Author extends BaseModel
-{
-    protected $fields = [
-        "id",
-        "author"
-    ];
-
-    protected $table = 'authors';
-}
-
 class Book extends BaseModel
 {
     protected $fields = [
@@ -38,4 +28,23 @@ class Book extends BaseModel
         tags.id = books_tags.tag_id
     GROUP BY
         books.id";
+}
+
+class Author extends BaseModel
+{
+    protected $fields = [
+        "id",
+        "author"
+    ];
+
+    protected $table = 'authors';
+}
+class Tag extends BaseModel
+{
+    protected $fields = [
+        "id",
+        "tag"
+    ];
+
+    protected $table = 'tags';
 }
