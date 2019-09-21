@@ -45,7 +45,7 @@ VALUES
   -- Table structure for table `books`
   --
   CREATE TABLE `books` (
-    `book_id` int(11) NOT NULL,
+    `id` int(11) NOT NULL,
     `title` varchar(256) NOT NULL,
     `author_id` int(11) DEFAULT NULL,
     `book_image` varchar(255) NOT NULL
@@ -54,7 +54,7 @@ VALUES
   -- Dumping data for table `books`
   --
 INSERT INTO
-  `books` (`book_id`, `title`, `author_id`, `book_image`)
+  `books` (`id`, `title`, `author_id`, `book_image`)
 VALUES
   (2, 'AAA', 1, 'download.jpeg'),
   (3, 'BBB', 1, 'download.jpeg'),
@@ -129,7 +129,7 @@ ADD
 ALTER TABLE
   `books`
 ADD
-  PRIMARY KEY (`book_id`);
+  PRIMARY KEY (`id`);
 --
   -- Indexes for table `books_tags`
   --
@@ -163,7 +163,7 @@ MODIFY
 ALTER TABLE
   `books`
 MODIFY
-  `book_id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   AUTO_INCREMENT = 8;
 --
   -- AUTO_INCREMENT for table `tags`

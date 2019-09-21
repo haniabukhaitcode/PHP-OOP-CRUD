@@ -27,8 +27,11 @@ class BaseModel
     // fetch select
     public function fetch()
     {
-        // "select (all the fields in the array and separate them with commas) from (sql table name)"
-        return $this->conn->getConnection()->query("select " . implode(',', $this->fields) . " from " . $this->table)->fetchAll(PDO::FETCH_OBJ);
+        // select books.id,books.title,books.book_image,authors.author,authors.id,GROUP_CONCAT(tags.tag SEPARATOR ',') tags from books Left JOIN authors ON authors.id = books.author_id Left JOIN books_tags ON books_tags.book_id = books.id Left JOIN tags ON tags.id = books_tags.tag_id GROUP BY books.id
+
+
+        $sql = $this->conn->getConnection()->query("SELECT " . implode(',', $this->fields) . " FROM " . $this->table)->fetchAll(PDO::FETCH_OBJ);
+        return $sql;
     }
 
     public function fetchById(int $id)

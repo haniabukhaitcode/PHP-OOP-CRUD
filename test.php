@@ -1,27 +1,30 @@
 <?php
 
-$fields = ['id', 'author'];
-echo "<br>Fields</br>";
-var_dump($fields); // array(2) { [0]=> string(2) "id" [1]=> string(6) "author" }
+$fields = [
+    "books.id",
+    "books.title",
+    "books.book_image",
+    "authors.author",
+    "authors.id",
+    "GROUP_CONCAT(tags.tag SEPARATOR ',') tags"
+];
+$table = "books
+    Left  JOIN
+          authors
+      ON
+          authors.id = books.author_id
+    Left  JOIN
+          books_tags
+      ON
+          books_tags.book_id = books.id
+     Left JOIN
+          tags
+      ON
+          tags.id = books_tags.tag_id
+  
+      GROUP BY
+          books.id";
 
-foreach ($fields as $key => $val) {
-    $fields[':' . $key] = $value;
-}
+$sql = ("select " . implode(',', $fields) . " from " . $table);
 
-echo "<br>Fields Keys foreach()</br>";
-var_dump($fields); //array(4) { [0]=>"id" [1]=>"author" [":0"]=> NULL [":1"]=> NULL }
-
-$newFields = ['id', 'author'];
-
-foreach ($newFields as $key => $val) {
-    $newFields[':' . $key] = $value;
-}
-
-echo "<br>foreach newFields</br>";
-var_dump($newFields); //array(4) { [0]=>"id" [1]=>"author" [":0"]=> NULL [":1"]=> NULL }
-print_r($newFields); //Array ( [0] => id [1] => author [:0] => [:1] => )
-
-echo "<br>Fields Keys</br>";
-$newFieldsQ = implode(',', array_keys($newFields));
-var_dump($newFieldsQ); //  "0,1,:0,:1"
-print($newFieldsQ); //  0,1,:0,:1
+var_dump($sql); // array(2) { [0]=> string(2) "id" [1]=> string(6) "author" }
