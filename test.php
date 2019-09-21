@@ -27,4 +27,4 @@ $table = "books
 
 $sql = ("select " . implode(',', $fields) . " from " . $table);
 
-var_dump($sql); // array(2) { [0]=> string(2) "id" [1]=> string(6) "author" }
+var_dump($sql);

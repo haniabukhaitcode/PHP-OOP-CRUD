@@ -1,6 +1,6 @@
 <?php
 
-require_once("../basemodel/basemodel.php");
+require_once("../models/basemodel.php");
 
 class Book extends BaseModel
 {
@@ -47,4 +47,22 @@ class Tag extends BaseModel
     ];
 
     protected $table = 'tags';
+}
+class AuthorBooks extends BaseModel
+{
+    protected $fields = [
+        "books.book_id",
+        "books.author_id",
+        "books.title",
+        "books.book_image",
+        "authors.author author"
+    ];
+
+    protected $table = "books
+    JOIN
+        authors
+    ON
+    authors.id = books.author_id
+    WHERE
+        books.author_id = ?";
 }
