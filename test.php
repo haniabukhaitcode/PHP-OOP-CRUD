@@ -27,4 +27,15 @@ $table = "books
 
 $sql = ("select " . implode(',', $fields) . " from " . $table);
 
+function insert(array $data)
+{
+    array_shift($this->fields);   // [0] => author
+    $fields = implode(', ', $this->fields); //author,
+    $parameters = $this->arrayValues($data); // {>"author" [":0"]=> NULL [":1"]=> NULL }
+    $keys = implode(',', array_keys($parameters));  //"0,1,:0,:1" 
+    $sql = $this->conn->getConnection()->prepare("insert into  " . $this->table .  "(' . $fields . ') values(' . $keys . ')");
+    $sql->execute($parameters);
+    print_r($parameters);
+    return true;
+}
 var_dump($sql);

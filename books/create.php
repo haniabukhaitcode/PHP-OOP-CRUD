@@ -48,7 +48,7 @@ if ($_POST) {
                                         <?php
                                         $tag = new Tag;
                                         foreach ($tag->fetch() as $row) : ?>
-                                            <option value="<?= $row->tag; ?>"><?= $row->tag; ?></a></option>
+                                            <option value="<?= $row->id; ?>"><?= $row->tag; ?></a></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
