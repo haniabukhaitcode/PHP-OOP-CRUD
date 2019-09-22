@@ -7,7 +7,7 @@ class Connection
 
     public function __construct()
     {
-        $this->info = require_once("../config/database.php");
+        $this->info = require "../config/database.php";
     }
 
     public function getConnection()

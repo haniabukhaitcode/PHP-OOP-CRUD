@@ -1,8 +1,8 @@
 <?php
 
-require_once("../models/basemodel.php");
+require "../models/Model.php";
 
-class Book extends BaseModel
+class Book extends Model
 {
     protected $fields = [
         "books.id",
@@ -30,7 +30,7 @@ class Book extends BaseModel
         books.id";
 }
 
-class Author extends BaseModel
+class Author extends Model
 {
     protected $fields = [
         "id",
@@ -39,7 +39,7 @@ class Author extends BaseModel
 
     protected $table = 'authors';
 }
-class Tag extends BaseModel
+class Tag extends Model
 {
     protected $fields = [
         "id",
@@ -48,10 +48,10 @@ class Tag extends BaseModel
 
     protected $table = 'tags';
 }
-class AuthorBooks extends BaseModel
+class AuthorBooks extends Model
 {
     protected $fields = [
-        "books.book_id",
+        "books.id",
         "books.author_id",
         "books.title",
         "books.book_image",
