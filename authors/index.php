@@ -14,7 +14,7 @@
                 <tbody>
                     <?php
                     $author = new Author;
-                    foreach ($author->fetch() as $row) :
+                    foreach ($author->fetchAll() as $row) :
                         ?>
                         <tr>
                             <td><?php echo $row->id; ?></td>

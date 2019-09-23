@@ -3,11 +3,12 @@
 class Connection
 {
     private $info;
-    private $connection;
-
+    public $instance;
     public function __construct()
     {
         $this->info = require "../config/database.php";
+        $this->instance = $this->getConnection();
+        return $this->instance;
     }
 
     public function getConnection()
@@ -15,8 +16,8 @@ class Connection
         $dsn = $this->info['mysql']['name'] . ':' . 'dbname=' . $this->info['mysql']['dbname'] . ';' . 'host=' . $this->info['mysql']['host'];
 
         try {
-            $this->connection = new PDO($dsn, $this->info['mysql']['username'], $this->info['mysql']['password']);
-            return $this->connection;
+            $connection = new PDO($dsn, $this->info['mysql']['username'], $this->info['mysql']['password']);
+            return $connection;
         } catch (PDOException $e) {
             echo "Connection Failed: " . $e->getMessage();
         }

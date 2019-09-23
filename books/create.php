@@ -1,19 +1,20 @@
 <?php require_once('../navbar.html'); ?>
-<?php require '../models/tables.php';
-
+<?php require '../models/Book.php';
+require '../models/Author.php';
+require '../models/Tag.php';
 if ($_POST) {
 
     $book = new Book;
-    $book->insert(
+    $book->insertBook(
         [
             "title" => $_POST["title"],
             "author_id" => $_POST["author_id"],
-
-            "book_image" => $_FILES["book_image"]
+            "tags" => $_POST["tags"],
+            "image" => $_FILES["book_image"]
         ]
     );
+    header("Location: index.php");
 }
-
 ?>
 <div class="container mt-4">
     <div class="row">
@@ -35,20 +36,20 @@ if ($_POST) {
                                     <div class="mb-3">
                                         <select class='form-control' name="author_id">
                                             <?php
-                                            $author = new Author;
-                                            foreach ($author->fetch() as $row) : ?>
-                                                <option value="<?= $row->author; ?>"><?= $row->author; ?></a></option>
+                                            $author = new Author();
+                                            foreach ($author->fetchAll() as $row) : ?>
+                                                <option value="<?= $row->id; ?>"><?= $row->author; ?></a></option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label>Tag</label>
-                                    <select class='form-control' name="tag_id[]" multiple="multiple">
+                                    <select class='form-control' name="tags[]" multiple="multiple">
                                         <?php
-                                        $tag = new Tag;
-                                        foreach ($tag->fetch() as $row) : ?>
-                                            <option value="<?= $row->tag; ?>"><?= $row->tag; ?></a></option>
+                                        $tag = new Tag();
+                                        foreach ($tag->fetchAll() as $row) : ?>
+                                            <option value="<?= $row->id; ?>"><?= $row->tag; ?></a></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>

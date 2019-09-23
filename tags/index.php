@@ -15,7 +15,7 @@
                 <tbody>
                     <?php
                     $tag = new Book;
-                    foreach ($tag->fetch() as $row) : ?>
+                    foreach ($tag->fetchOne() as $row) : ?>
                         <tr>
                             <th scope="row"><?= $row->id; ?></th>
                             <td><?= $row->tags; ?></td>
