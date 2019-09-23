@@ -8,7 +8,7 @@ if ($_POST) {
         [
             "title" => $_POST["title"],
             "author_id" => $_POST["author_id"],
-            "tag_id" => $_POST["tag_id"],
+
             "book_image" => $_FILES["book_image"]
         ]
     );
@@ -48,7 +48,7 @@ if ($_POST) {
                                         <?php
                                         $tag = new Tag;
                                         foreach ($tag->fetch() as $row) : ?>
-                                            <option value="<?= $row->id; ?>"><?= $row->tag; ?></a></option>
+                                            <option value="<?= $row->tag; ?>"><?= $row->tag; ?></a></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>

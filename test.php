@@ -1,41 +1,22 @@
 <?php
 
-$fields = [
-    "books.id",
-    "books.title",
-    "books.book_image",
-    "authors.author",
-    "authors.id",
-    "GROUP_CONCAT(tags.tag SEPARATOR ',') tags"
-];
-$table = "books
-    Left  JOIN
-          authors
-      ON
-          authors.id = books.author_id
-    Left  JOIN
-          books_tags
-      ON
-          books_tags.book_id = books.id
-     Left JOIN
-          tags
-      ON
-          tags.id = books_tags.tag_id
-  
-      GROUP BY
-          books.id";
+$fields = [];
+$table;
+$conn;
+$data = ["name" => "Hani", "color" => "red", "age" => 12, "book" => "java"];
 
-$sql = ("select " . implode(',', $fields) . " from " . $table);
-
-function insert(array $data)
-{
-    array_shift($this->fields);   // [0] => author
-    $fields = implode(', ', $this->fields); //author,
-    $parameters = $this->arrayValues($data); // {>"author" [":0"]=> NULL [":1"]=> NULL }
-    $keys = implode(',', array_keys($parameters));  //"0,1,:0,:1" 
-    $sql = $this->conn->getConnection()->prepare("insert into  " . $this->table .  "(' . $fields . ') values(' . $keys . ')");
-    $sql->execute($parameters);
-    print_r($parameters);
-    return true;
+$arr = [];
+foreach ($data as $key => $newKey) {
+    $arr[':' . $key] = $newKey;
 }
-var_dump($sql);
+print_r($arr); // [:name] => Hani [:color] => red [:age] => 12 [:book] => java
+
+$dataNew = [":name" => "Hani", ":color" => "red", ":age" => 12, ":book" => "java"];
+$keys = implode(',', array_keys($dataNew));
+print_r("<br>" . $keys . "<br>"); // :name,:color,:age,:book
+
+$fields = ["name" => "Hani", "color" => "red", "age" => 12, "book" => "java"];
+
+array_shift($fields);
+$fields = implode(', ', $fields);
+print_r($fields); // red, 12, java
