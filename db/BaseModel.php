@@ -64,10 +64,9 @@ class BaseModel
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
-
-    public function fetchRaw($query)
+    public function fetchRaw()
     {
-        return $this->conn->query($query)->fetchAll();
+        return $this->conn->query("select " . implode(',', $this->fields) . " from " . $this->table)->fetchAll();
     }
 
     // fetch select many
@@ -81,6 +80,18 @@ class BaseModel
         return $this->conn->query($query)->fetchAll(PDO::FETCH_OBJ);
     }
 
+
+    public function update(int $id, array $data)
+    {
+        $statement = '';
+        foreach ($data as $key => $value) {
+            $statement .= $key . "='" . $value . "',";
+        }
+        $statement = rtrim($statement, ',');
+        $sql = $this->pdo->getConnection()->prepare('update ' . $this->table . ' set ' . $statement . ' where ' . $this->primary_key . ' = ' . $id);
+        $sql->execute();
+        return true;
+    }
 
 
     public function delete(int $id)

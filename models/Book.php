@@ -38,6 +38,44 @@ class Book extends BaseModel
             ));
         }
     }
+    function readOne($id)
+    {
+        $query = "SELECT
+        books.book_id,
+        books.title,
+        books.book_image,
+        authors.id author,
+        GROUP_CONCAT(tags.id SEPARATOR ',') tags
+        
+    FROM
+        books
+    JOIN
+        authors
+    ON
+        authors.id = books.author_id
+    JOIN
+        books_tags
+    ON
+        books_tags.book_id = books.book_id
+    JOIN
+        tags
+    ON
+        tags.id = books_tags.tag_id
+
+    WHERE books.book_id = ?
+
+    GROUP BY
+        books.book_id";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $id);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_OBJ);
+        $this->title = $row->title;
+        $this->author_id = $row->author;
+        $this->book_image = $row->book_image;
+        $this->tagIds =  explode(",", $row->tags);
+    }
 
     public function getList()
     {
@@ -97,10 +135,7 @@ class Book extends BaseModel
             if ($check !== false) {
                 // make sure the 'uploads' folder exists
                 // if not, create it
-                if (!is_dir($target_directory)) {
-                    mkdir($target_directory, 775, true);
-                }
-                move_uploaded_file($image["tmp_name"], $target_file);
+
                 return array(
                     "name" => $image["name"]
                 );
