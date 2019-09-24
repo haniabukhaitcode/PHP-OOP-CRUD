@@ -2,7 +2,9 @@
 <div class="container mt-4">
     <div class="row">
         <div class="col-lg-12">
-            <?php require_once('../models/tables.php'); ?>
+            <?php require_once("../db/BaseModel.php");
+            require '../models/Author.php';
+            ?>
             <table class="table table-dark">
                 <thead>
                     <tr>

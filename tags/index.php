@@ -2,7 +2,9 @@
 <div class="container mt-4">
     <div class="row">
         <div class="col-lg-12">
-            <?php require '../models/tables.php'; ?>
+            <?php require_once("../db/BaseModel.php");
+            require '../models/Tag.php';
+            ?>
             <table class="table table-dark">
                 <thead>
                     <tr>
@@ -14,11 +16,11 @@
                 </thead>
                 <tbody>
                     <?php
-                    $tag = new Book;
-                    foreach ($tag->fetchOne() as $row) : ?>
+                    $tags = new Tag;
+                    foreach ($tags->fetchAll() as $row) : ?>
                         <tr>
                             <th scope="row"><?= $row->id; ?></th>
-                            <td><?= $row->tags; ?></td>
+                            <td><?= $row->tag; ?></td>
                             <td><a class="btn btn-sm btn-primary" href="edit.php?id=<?= $row->id; ?>">Edit</a> &nbsp; <a class="btn btn-sm btn-danger" href="delete.php?id=<?= $row->id ?>">Delete</a></td>
                         </tr>
 
