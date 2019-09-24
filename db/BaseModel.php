@@ -34,6 +34,7 @@ class BaseModel
             $insertedKeys[] = $key;
         }
         $fields = implode(',', $insertedKeys);
+
         $parameters = $this->arrayKeys($data);
         $keys = implode(',', array_keys($parameters));
 
