@@ -23,7 +23,7 @@ class Book extends BaseModel
         //sql
         $tagModel = new BookTags();
         $lastId = "select max(id) id from " . $this->table . "";
-        $imageName = $this->uploadPhoto($data['image'])["name"]; // go inside image array and get the name 'image' => 'name.jpg'
+        $imageName = $this->uploadPhoto($data['image'])["name"]; // go inside image array and get the name inside 'image' => 'name.jpg'
         $tags = $data['tags']; // go inside tags table get the ids selected
         unset($data['image']); // remove 'image' only from 'image'=>'name'
         unset($data['tags']); // remove 'tags' only from 'image'=>'name'
@@ -42,14 +42,14 @@ class Book extends BaseModel
     public function getList()
     {
         $query = "SELECT 
-        books.id,
-        books.author_id,
-        books.title,
-        GROUP_CONCAT(tags.tag SEPARATOR ',') tags,
-        books.book_image,
-        authors.author author
+            books.id,
+            books.author_id,
+            books.title,
+            books.book_image,
+            authors.author author,
+            GROUP_CONCAT(tags.tag SEPARATOR ',') tags
         FROM
-        books
+            books
         LEFT JOIN
             authors
         ON
