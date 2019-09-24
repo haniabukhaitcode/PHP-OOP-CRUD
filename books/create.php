@@ -2,8 +2,8 @@
 <?php require '../models/Book.php';
 require '../models/Author.php';
 require '../models/Tag.php';
-if ($_POST) {
 
+if ($_POST) {
     $book = new Book;
     $book->insertBook(
         [

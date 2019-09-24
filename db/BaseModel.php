@@ -7,7 +7,7 @@ class BaseModel
     protected $fields = [];
     protected $table;
     private $conn;
-
+    protected $primary_key = 'id';
     public function __construct()
     {
         $connection = new Connection();
@@ -78,5 +78,18 @@ class BaseModel
             $query = "SELECT " . implode(',', $this->fields) . " FROM " . $this->table;
         }
         return $this->conn->query($query)->fetchAll(PDO::FETCH_OBJ);
+    }
+
+
+
+    public function delete(int $id)
+    {
+        $query = "DELETE FROM " . $this->table . " WHERE " . $this->primary_key . " = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(":id", $id);
+        $stmt->execute();
+        if ($stmt) {
+            header("Location: index.php");
+        }
     }
 }
