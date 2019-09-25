@@ -1,22 +1,41 @@
 <?php
+$arr = [
+    'id' =>
+    [
+        "title" => ["title"],
+        "author_id" => ["author_id"],
+        "tags" => ["tags"],
+        "image" => ["book_image"],
+    ]
+];
 
-$fields = [];
-$table;
-$conn;
-$data = ["name" => "Hani", "color" => "red", "age" => 12, "book" => "java"];
 
-$arr = [];
-foreach ($data as $key => $newKey) {
-    $arr[':' . $key] = $newKey;
+$table = 'books';
+$primary_key = 'id';
+$id = 1;
+$data = [
+    "title" => "myTitle",
+    "author" => "myAuthor",
+    "tags" => "myTags",
+    "image" => "myImage"
+];
+$fields = [
+    "title" => "myTitle",
+    "author" => "myAuthor",
+    "tags" => "myTags",
+    "image" => "myImage"
+];
+
+$statement = '';
+foreach ($data as $key => $value) {
+    $statement .= $key . "='" . $value . "',";
 }
-print_r($arr); // [:name] => Hani [:color] => red [:age] => 12 [:book] => java
+print_r($statement . "<br>"); // title='myTitle',author='myAuthor',tags='myTags',image='myImage',
+$statement = rtrim($statement, ',');
+print_r($statement . "<br>"); //title='myTitle',author='myAuthor',tags='myTags',image='myImage'
 
-$dataNew = [":name" => "Hani", ":color" => "red", ":age" => 12, ":book" => "java"];
-$keys = implode(',', array_keys($dataNew));
-print_r("<br>" . $keys . "<br>"); // :name,:color,:age,:book
+$sql = ('update ' . $table . ' set ' . $statement . ' where ' . $primary_key . ' = ' . $id);
+print_r($sql . "<br>"); // update books set title='myTitle',author='myAuthor',tags='myTags',image='myImage' where id = 1
 
-$fields = ["name" => "Hani", "color" => "red", "age" => 12, "book" => "java"];
-
-array_shift($fields);
-$fields = implode(', ', $fields);
-print_r($fields); // red, 12, java
+$query = "SELECT " . implode(',', $fields) . " FROM " . $table . " where id = 1 ";
+print_r($query); // update books set title='myTitle',author='myAuthor',tags='myTags',image='myImage' where id = 1

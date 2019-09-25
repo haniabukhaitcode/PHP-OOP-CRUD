@@ -20,7 +20,7 @@
                 <tbody>
                     <?php
                     $book = new Book();
-                    $data = $book->getList();
+                    $data = $book->readAll();
                     foreach ($data as $row) : ?>
                         <tr>
                             <th scope="row"><?php echo $row->id; ?></th>

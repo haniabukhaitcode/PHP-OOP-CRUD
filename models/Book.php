@@ -12,8 +12,45 @@ class Book extends BaseModel
     // we are receiving title, author_id, tags, image
     // our table "books" should receive lastId inserted id, title, author_id, book_image
     protected $table = "books";
+
+    public function readAll()
+    {
+        $query = "SELECT 
+        books.id,
+        books.title,
+        books.book_image,
+        books.author_id,
+        authors.author author,
+        GROUP_CONCAT(tags.tag SEPARATOR ',') tags
+        FROM
+        books
+        LEFT JOIN
+            authors
+        ON
+            authors.id = books.author_id
+        LEFT JOIN
+            books_tags
+        ON
+            books_tags.book_id = books.id
+        LEFT JOIN
+            tags
+        ON
+            tags.id = books_tags.tag_id
+        GROUP BY
+            books.id";
+        // $stmt = $this->conn->prepare($query);
+        // $stmt->execute();
+        // return $stmt;
+        // print_r($stmt->errorInfo());
+        $result = $this->fetchAll($query);
+        return $result;
+    }
     public function insertBook(array $data)
     {
+        // "title" => $_POST["title"],
+        // "author_id" => $_POST["author_id"],
+        // "tags" => $_POST["tags"],
+        // "image" => $_FILES["book_image"]
         //sql
         $tagModel = new BookTags();
         $lastId = "select max(id) id from " . $this->table . "";
@@ -32,34 +69,81 @@ class Book extends BaseModel
             ));
         }
     }
-    public function getList()
+
+
+    function readOne()
     {
-        $query = "SELECT 
+        $query = "SELECT
         books.id,
-        books.author_id,
         books.title,
-        GROUP_CONCAT(tags.tag SEPARATOR ',') tags,
         books.book_image,
-        authors.author author
+        authors.id author,
+        GROUP_CONCAT(tags.id SEPARATOR ',') tags
+        
         FROM
-        books
-        LEFT JOIN
+            books
+
+        JOIN
             authors
         ON
             authors.id = books.author_id
-        LEFT JOIN
+
+        JOIN
             books_tags
         ON
             books_tags.book_id = books.id
-        LEFT JOIN
+
+        JOIN
             tags
         ON
             tags.id = books_tags.tag_id
+
+
+        WHERE 
+            books.id = ?
+
         GROUP BY
             books.id";
+
         $result = $this->fetchAll($query);
         return $result;
     }
+
+    function edit(int $id, array $data)
+    {
+        // $book->title = $_POST['title'];
+        // $book->author_id = $_POST['author_id'];
+        // $book->tag_id = $_POST['tag_id'];
+        // $book->book_image = $_FILES['book_image'];
+        //sql
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $tagModel = new BookTags();
+        $deleteTags = "delete from books_tags where book_id = " . $id . "";
+        $imageName = $this->uploadPhoto($data['image'])["name"]; // go inside image array and get the name 'image' => 'name.jpg'
+        $tags = $data['tags']; // go inside tags table get the ids selected
+        unset($data['image']); // remove 'image' only from 'image'=>'name'
+        unset($data['tags']); // remove 'tags' only from 'image'=>'name'
+        $data['book_image'] = $imageName; // add book_image to get book_image => name.jpg
+        $this->update($id, $data);
+        $id = (int) $id;
+        foreach ($tags as $tag) { //go inside tags and get the tag foreach raw
+            $tagModel->update(
+                $id['id'],
+                [
+                    "tag_id" => $tag,
+                    "book_id" => $id
+                ]
+
+            );
+            // $tagModel->insert(array(
+            //     "tag_id" => $tag,
+            //     "book_id" => $bookId
+            // ));
+        }
+    }
+
+
+
     private function uploadPhoto($image)
     {
         $result_message = "";

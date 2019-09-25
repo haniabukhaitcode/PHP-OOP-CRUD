@@ -1,29 +1,29 @@
 <?php
+$id = isset($_GET['id']) ? $_GET['id'] : die('ERROR: missing ID.');
 require_once("../db/BaseModel.php");
 require '../models/Book.php';
 require '../models/Author.php';
 require '../models/Tag.php';
-$book = new Book;
-$book = $book->fetchOne($_GET['id']);
-
 if ($_POST) {
     $book = new Book;
-
-    $book->update(
+    //$book = $book->fetchOne($_GET['id']);
+    // id   title    book_image     author_id 
+    // 2     AAA     download.jpeg      1
+    $book->getById($id);
+    // id   title    book_image       author    tags 
+    // 2     AAA     download.jpeg      1       1,2,
+    $book->edit(
         $_POST['id'],
         [
-            "title" => $_POST["title"],
-            "author_id" => $_POST["author_id"],
-            "tags" => $_POST["tags"],
-            "image" => $_FILES["book_image"]
+            'name' => $_POST['name'],
+            'genre' => $_POST['genre'],
+            'address' => $_POST['address']
         ]
+
     );
-    header('Location: index.php');
 }
-
-
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,7 +44,7 @@ if ($_POST) {
                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?id={$id}"); ?>" method="post" enctype="multipart/form-data">
                             <div>
                                 <label>Title</label>
-                                <input type='text' name='title' value='<?php echo $book->title; ?>' class='form-control' /></label>
+                                <input type='text' name='title' class='form-control' /></label>
                             </div>
                             <div class="mt-3">
                                 <label>Author</label>

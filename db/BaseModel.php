@@ -52,15 +52,20 @@ class BaseModel
     public function fetchOne($id)
     {
         $query = "SELECT " . implode(',', $this->fields) . " FROM " . $this->table . " where id = ? ";
-
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $id);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
+
     public function fetchRaw()
     {
         return $this->conn->query("select " . implode(',', $this->fields) . " from " . $this->table)->fetchAll();
+    }
+
+    public function getById(int $id)
+    {
+        return $this->conn->query("select " . implode(',', $this->fields) . " from " . $this->table . " where id = " . $id)->fetchAll(PDO::FETCH_OBJ)[0];
     }
 
     // fetch select many
