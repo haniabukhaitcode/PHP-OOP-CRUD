@@ -45,33 +45,8 @@ class Book extends BaseModel
         $result = $this->fetchAll($query);
         return $result;
     }
-    public function insertBook(array $data)
-    {
-        // "title" => $_POST["title"],
-        // "author_id" => $_POST["author_id"],
-        // "tags" => $_POST["tags"],
-        // "image" => $_FILES["book_image"]
-        //sql
-        $tagModel = new BookTags();
-        $lastId = "select max(id) id from " . $this->table . "";
-        $imageName = $this->uploadPhoto($data['image'])["name"]; // go inside image array and get the name 'image' => 'name.jpg'
-        $tags = $data['tags']; // go inside tags table get the ids selected
-        unset($data['image']); // remove 'image' only from 'image'=>'name'
-        unset($data['tags']); // remove 'tags' only from 'image'=>'name'
-        $data['book_image'] = $imageName; // add book_image to get book_image => name.jpg
-        $this->insert($data); // modify inserted data
-        $insertedId = $this->fetchRaw($lastId); //fetch last inserted id raw
-        $bookId =  $insertedId[0]["id"]; //get last id number inserted
-        foreach ($tags as $tag) { //go inside tags and get the tag foreach raw
-            $tagModel->insert(array(
-                "tag_id" => $tag,
-                "book_id" => $bookId
-            ));
-        }
-    }
 
-
-    function readOne()
+    function readOne($id)
     {
         $query = "SELECT
         books.id,
@@ -105,40 +80,46 @@ class Book extends BaseModel
         GROUP BY
             books.id";
 
-        $result = $this->fetchAll($query);
+        $data = $this->fetchAll($query);
+        $result = $this->update($id,  $data);
         return $result;
     }
 
-    function edit(int $id, array $data)
+    public function insertBook(array $data)
     {
-        // $book->title = $_POST['title'];
-        // $book->author_id = $_POST['author_id'];
-        // $book->tag_id = $_POST['tag_id'];
-        // $book->book_image = $_FILES['book_image'];
-        //sql
-        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+
         $tagModel = new BookTags();
-        $deleteTags = "delete from books_tags where book_id = " . $id . "";
+        $lastId = "select max(id) id from " . $this->table . "";
         $imageName = $this->uploadPhoto($data['image'])["name"]; // go inside image array and get the name 'image' => 'name.jpg'
         $tags = $data['tags']; // go inside tags table get the ids selected
         unset($data['image']); // remove 'image' only from 'image'=>'name'
         unset($data['tags']); // remove 'tags' only from 'image'=>'name'
         $data['book_image'] = $imageName; // add book_image to get book_image => name.jpg
-        $this->update($id, $data);
-        $id = (int) $id;
+        $this->insert($data); // modify inserted data
+        $insertedId = $this->fetchRaw($lastId); //fetch last inserted id raw
+        $bookId =  $insertedId[0]["id"]; //get last id number inserted
         foreach ($tags as $tag) { //go inside tags and get the tag foreach raw
-            $tagModel->update(
-                $id['id'],
-                [
+            $tagModel->insert(array(
+                "tag_id" => $tag,
+                "book_id" => $bookId
+            ));
+        }
+    }
+    function updateBook(int $id, array $data)
+    { {
+            $tagModel = new BookTags();
+            $imageName = $this->uploadPhoto($data['image'])["name"]; // go inside image array and get the name 'image' => 'name.jpg'
+            $tags = $data['tags']; // go inside tags table get the ids selected
+            unset($data['image']); // remove 'image' only from 'image'=>'name'
+            unset($data['tags']); // remove 'tags' only from 'image'=>'name'
+            $data['book_image'] = $imageName; // add book_image to get book_image => name.jpg
+            $this->update($id, $data); // modify inserted data
+            foreach ($tags as $tag) { //go inside tags and get the tag foreach raw
+                $tagModel->insert(array(
                     "tag_id" => $tag,
                     "book_id" => $id
-                ]
-
-            );
-            // $tagModel->insert(array(
-            //     "tag_id" => $tag,
-            //     "book_id" => $bookId
-            // ));
+                ));
+            }
         }
     }
 

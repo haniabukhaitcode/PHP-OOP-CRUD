@@ -87,7 +87,7 @@ class BaseModel
             $statement .= $key . "='" . $value . "',";
         }
         $statement = rtrim($statement, ',');
-        $sql = $this->pdo->getConnection()->prepare('update ' . $this->table . ' set ' . $statement . ' where ' . $this->primary_key . ' = ' . $id);
+        $sql = $this->conn->prepare('update ' . $this->table . ' set ' . $statement . ' where ' . $this->primary_key . ' = ' . $id);
         $sql->execute();
         return true;
     }

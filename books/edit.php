@@ -4,23 +4,21 @@ require_once("../db/BaseModel.php");
 require '../models/Book.php';
 require '../models/Author.php';
 require '../models/Tag.php';
+
+$book->readOne($id);
+
 if ($_POST) {
     $book = new Book;
-    //$book = $book->fetchOne($_GET['id']);
-    // id   title    book_image     author_id 
-    // 2     AAA     download.jpeg      1
-    $book->getById($id);
-    // id   title    book_image       author    tags 
-    // 2     AAA     download.jpeg      1       1,2,
-    $book->edit(
-        $_POST['id'],
+    $book->updateBook(
+        $_POST[$id],
         [
-            'name' => $_POST['name'],
-            'genre' => $_POST['genre'],
-            'address' => $_POST['address']
+            "title" => $_POST["title"],
+            "author_id" => $_POST["author_id"],
+            "tags" => $_POST["tags"],
+            "image" => $_FILES["book_image"]
         ]
-
     );
+    header("Location: index.php");
 }
 ?>
 
