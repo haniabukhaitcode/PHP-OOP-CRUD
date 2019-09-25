@@ -48,13 +48,7 @@ class BaseModel
         return true;
     }
 
-    // public function fetchById(int $id)
-    // {
-    //     return $this->conn->getConnection()->query("select " . implode(',', $this->fields) . " from " . $this->table . " where id = " . $id)->fetchAll(PDO::FETCH_OBJ)[0];
-    // }
 
-
-    // fetch select 1
     public function fetchOne($id)
     {
         $query = "SELECT " . implode(',', $this->fields) . " FROM " . $this->table . " where id = ? ";
