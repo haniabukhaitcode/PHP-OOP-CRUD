@@ -5,18 +5,23 @@ require '../models/Book.php';
 require '../models/Author.php';
 require '../models/Tag.php';
 
+$book = new Book;
+$author = new Author;
+$tag = new Tag;
 $book->readOne($id);
 
 if ($_POST) {
-    $book = new Book;
     $book->updateBook(
-        $_POST[$id],
+
+        $_POST['id'],
+
         [
             "title" => $_POST["title"],
             "author_id" => $_POST["author_id"],
             "tags" => $_POST["tags"],
             "image" => $_FILES["book_image"]
         ]
+
     );
     header("Location: index.php");
 }

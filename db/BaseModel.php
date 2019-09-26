@@ -84,7 +84,7 @@ class BaseModel
     {
         $statement = '';
         foreach ($data as $key => $value) {
-            $statement .= $key . "='" . $value . "',";
+            $statement .= $key . "=:" . $value . ",";
         }
         $statement = rtrim($statement, ',');
         $sql = $this->conn->prepare('update ' . $this->table . ' set ' . $statement . ' where ' . $this->primary_key . ' = ' . $id);

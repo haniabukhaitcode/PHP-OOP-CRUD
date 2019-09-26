@@ -79,10 +79,6 @@ class Book extends BaseModel
 
         GROUP BY
             books.id";
-
-        $data = $this->fetchAll($query);
-        $result = $this->update($id,  $data);
-        return $result;
     }
 
     public function insertBook(array $data)
@@ -107,13 +103,13 @@ class Book extends BaseModel
     }
     function updateBook(int $id, array $data)
     { {
-            $tagModel = new BookTags();
+            $tagModel = new BookTags(); //books_tags(book_id, tag_id)
             $imageName = $this->uploadPhoto($data['image'])["name"]; // go inside image array and get the name 'image' => 'name.jpg'
             $tags = $data['tags']; // go inside tags table get the ids selected
             unset($data['image']); // remove 'image' only from 'image'=>'name'
             unset($data['tags']); // remove 'tags' only from 'image'=>'name'
             $data['book_image'] = $imageName; // add book_image to get book_image => name.jpg
-            $this->update($id, $data); // modify inserted data
+            $this->delete($id);
             foreach ($tags as $tag) { //go inside tags and get the tag foreach raw
                 $tagModel->insert(array(
                     "tag_id" => $tag,
