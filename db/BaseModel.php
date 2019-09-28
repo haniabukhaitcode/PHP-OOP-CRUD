@@ -49,13 +49,20 @@ class BaseModel
     }
 
 
-    public function fetchOne($id)
+    public function fetchOne($id, $row = null)
     {
-        $query = "SELECT " . implode(',', $this->fields) . " FROM " . $this->table . " where id = ? ";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $id);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_OBJ);
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        if ($row != null) {
+            $query = $row;
+        } else {
+            $query = "SELECT " . implode(',', $this->fields) . " FROM " . $this->table . " where id = ? ";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(1, $id);
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+            return $result;
+            print_r($stmt->errorInfo());
+        }
     }
 
     public function fetchRaw()
@@ -69,10 +76,10 @@ class BaseModel
     }
 
     // fetch select many
-    public function fetchAll($raw = null)
+    public function fetchAll($row = null)
     {
-        if ($raw != null) {
-            $query = $raw;
+        if ($row != null) {
+            $query = $row;
         } else {
             $query = "SELECT " . implode(',', $this->fields) . " FROM " . $this->table;
         }

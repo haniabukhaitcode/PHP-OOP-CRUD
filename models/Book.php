@@ -1,6 +1,6 @@
 <?php
 require_once("../db/BaseModel.php");
-require_once("../models/BookTags.php");
+require_once("../models/BookTag.php");
 class Book extends BaseModel
 {
     protected $fields = [
@@ -88,7 +88,7 @@ class Book extends BaseModel
     public function insertBook(array $data)
     {
 
-        $tagModel = new BookTags();
+        $tagModel = new BookTag();
         $lastId = "select max(id) id from " . $this->table . "";
         $imageName = $this->uploadPhoto($data['image'])["name"]; // go inside image array and get the name 'image' => 'name.jpg'
         $tags = $data['tags']; // go inside tags table get the ids selected
@@ -107,7 +107,7 @@ class Book extends BaseModel
     }
     function updateBook(int $id, array $data)
     { {
-            $tagModel = new BookTags();
+            $tagModel = new BookTag();
             $imageName = $this->uploadPhoto($data['image'])["name"]; // go inside image array and get the name 'image' => 'name.jpg'
             $tags = $data['tags']; // go inside tags table get the ids selected
             unset($data['image']); // remove 'image' only from 'image'=>'name'
