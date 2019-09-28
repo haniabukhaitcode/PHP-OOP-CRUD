@@ -1,8 +1,8 @@
-<?php include('../navbar.html'); ?>
+<?php require_once('../navbar.html'); ?>
 <?php
 
 
-require '../models/Author.php';
+require_once '../models/Author.php';
 $author = new Author;
 $author = $author->getById($_GET['id']);
 

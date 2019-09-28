@@ -1,5 +1,5 @@
 <?php
-require '../models/Tag.php';
+require_once '../models/Tag.php';
 
 if ($_POST) {
     $tag = new Tag;
@@ -24,7 +24,7 @@ if ($_POST) {
 </head>
 
 <body>
-    <?php include('../navbar.html'); ?>
+    <?php require_once('../navbar.html'); ?>
     <div class="container mt-4">
         <div class="row">
             <div class="col-lg-12">

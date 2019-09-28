@@ -1,4 +1,4 @@
-<?php require '../navbar.html'; ?>
+<?php require_once '../navbar.html'; ?>
 <div class="container mt-4">
     <div class="row">
         <div class="col-lg-12">
@@ -17,8 +17,8 @@
                 </thead>
                 <tbody>
                     <?php
-                    require "../db/BaseModel.php";
-                    require '../models/Author.php';
+                    require_once "../db/BaseModel.php";
+                    require_once '../models/Author.php';
 
                     $author = new Author;
                     foreach ($author->fetchAll() as $row) :

@@ -1,5 +1,5 @@
 <?php
-require '../models/Author.php';
+require_once '../models/Author.php';
 
 if ($_POST) {
     $author = new Author;
@@ -25,7 +25,7 @@ if ($_POST) {
 
 <body>
 
-    <?php include('../navbar.html'); ?>
+    <?php require_once('../navbar.html'); ?>
 
     <div class="container mt-4">
         <div class="row">

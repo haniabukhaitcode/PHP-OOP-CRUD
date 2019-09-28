@@ -1,9 +1,9 @@
 <?php
 $id = isset($_GET['id']) ? $_GET['id'] : die('ERROR: missing ID.');
-require "../db/BaseModel.php";
-require '../models/Book.php';
-require '../models/Author.php';
-require '../models/Tag.php';
+require_once "../db/BaseModel.php";
+require_once '../models/Book.php';
+require_once '../models/Author.php';
+require_once '../models/Tag.php';
 
 $book->readOne($id);
 

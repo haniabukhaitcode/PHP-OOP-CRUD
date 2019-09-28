@@ -11,7 +11,7 @@
 
 <body>
     <!-- Navbar -->
-    <?php require '../navbar.html';
+    <?php require_once '../navbar.html';
     $id = isset($_GET['id']) ? $_GET['id'] : die('ERROR: missing ID.');
     ?>
 
@@ -28,8 +28,8 @@
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?id={$id}"); ?>" method="post" enctype="multipart/form-data">
                     <div class="row no-gutters">
                         <?php
-                        require "../db/BaseModel.php";
-                        require '../models/AuthorBook.php';
+                        require_once "../db/BaseModel.php";
+                        require_once '../models/AuthorBook.php';
 
                         $authorBook = new AuthorBook();
                         foreach ($authorBook->fetchAuthorBooks($id) as $row) :  ?>

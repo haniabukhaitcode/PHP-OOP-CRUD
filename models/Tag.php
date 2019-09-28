@@ -1,5 +1,5 @@
 <?php
-require "../db/BaseModel.php";
+require_once "../db/BaseModel.php";
 
 
 class Tag extends BaseModel

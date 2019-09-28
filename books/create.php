@@ -1,7 +1,7 @@
-<?php require '../navbar.html'; ?>
-<?php require '../models/Book.php';
-require '../models/Author.php';
-require '../models/Tag.php';
+<?php require_once '../navbar.html'; ?>
+<?php require_once '../models/Book.php';
+require_once '../models/Author.php';
+require_once '../models/Tag.php';
 if ($_POST) {
     $book = new Book;
     $book->insertBook(
