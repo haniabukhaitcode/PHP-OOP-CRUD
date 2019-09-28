@@ -1,5 +1,5 @@
 <?php
-include_once("../models/Book.php");
+require "../models/Book.php";
 
 
 if (isset($_GET['del'])) {

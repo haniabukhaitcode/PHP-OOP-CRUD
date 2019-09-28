@@ -1,4 +1,4 @@
-<?php require_once('../navbar.html'); ?>
+<?php require '../navbar.html'; ?>
 <div class="container mt-4">
     <div class="row">
         <div class="col-lg-12">

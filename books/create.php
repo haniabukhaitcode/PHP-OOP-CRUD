@@ -1,4 +1,4 @@
-<?php require_once('../navbar.html'); ?>
+<?php require '../navbar.html'; ?>
 <?php require '../models/Book.php';
 require '../models/Author.php';
 require '../models/Tag.php';

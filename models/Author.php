@@ -1,6 +1,6 @@
 <?php
-require_once("../db/BaseModel.php");
-
+require "../db/BaseModel.php";
+require "../models/Author.php";
 class Author extends BaseModel
 {
     protected $fields = [
@@ -9,4 +9,12 @@ class Author extends BaseModel
     ];
 
     protected $table = "authors";
+}
+
+function updateAuthor(int $id, array $data)
+{ {
+        $this->update($id); // modify inserted data
+        $this->fetchOne($data); // modify inserted data
+
+    }
 }

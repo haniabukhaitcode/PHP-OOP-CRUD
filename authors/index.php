@@ -1,4 +1,4 @@
-<?php require_once('../navbar.html'); ?>
+<?php require '../navbar.html'; ?>
 <div class="container mt-4">
     <div class="row">
         <div class="col-lg-12">
@@ -17,7 +17,7 @@
                 </thead>
                 <tbody>
                     <?php
-                    require_once("../db/BaseModel.php");
+                    require "../db/BaseModel.php";
                     require '../models/Author.php';
 
                     $author = new Author;

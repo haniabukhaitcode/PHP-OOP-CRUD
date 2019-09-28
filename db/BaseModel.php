@@ -49,20 +49,27 @@ class BaseModel
     }
 
 
-    public function fetchOne($id, $row = null)
+    public function fetchOne($id)
     {
-        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
-        if ($row != null) {
-            $query = $row;
-        } else {
-            $query = "SELECT " . implode(',', $this->fields) . " FROM " . $this->table . " where id = ? ";
-            $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(1, $id);
-            $stmt->execute();
-            $result = $stmt->fetchAll();
-            return $result;
-            print_r($stmt->errorInfo());
+
+        $query = "SELECT " . implode(',', $this->fields) . " FROM " . $this->table . " where id = ? ";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $id);
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        return $result;
+    }
+
+    public function update(int $id, array $data)
+    {
+        $statement = '';
+        foreach ($data as $key => $value) {
+            $statement .= $key . "=:" . $value . ",";
         }
+        $statement = rtrim($statement, ',');
+        $sql = $this->conn->prepare('update ' . $this->table . ' set ' . $statement . ' where ' . $this->primary_key . ' = ' . $id);
+        $sql->execute();
+        return true;
     }
 
     public function fetchRaw()
@@ -87,17 +94,6 @@ class BaseModel
     }
 
 
-    public function update(int $id, array $data)
-    {
-        $statement = '';
-        foreach ($data as $key => $value) {
-            $statement .= $key . "='" . $value . "',";
-        }
-        $statement = rtrim($statement, ',');
-        $sql = $this->conn->prepare('update ' . $this->table . ' set ' . $statement . ' where ' . $this->primary_key . ' = ' . $id);
-        $sql->execute();
-        return true;
-    }
 
 
     public function delete(int $id)

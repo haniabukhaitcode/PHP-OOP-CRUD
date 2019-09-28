@@ -1,5 +1,5 @@
 <?php
-include_once("../models/Author.php");
+include "../models/Author.php";
 
 
 if (isset($_GET['del'])) {

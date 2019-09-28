@@ -1,8 +1,8 @@
-<?php require_once('../navbar.html'); ?>
+<?php require '../navbar.html'; ?>
 <div class="container mt-4">
     <div class="row">
         <div class="col-lg-12">
-            <?php require_once("../db/BaseModel.php");
+            <?php require "../db/BaseModel.php";
             require '../models/Tag.php';
             ?>
             <div class="row">

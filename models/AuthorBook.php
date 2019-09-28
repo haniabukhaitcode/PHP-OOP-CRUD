@@ -1,5 +1,5 @@
 <?php
-require_once("../db/BaseModel.php");
+require "../db/BaseModel.php";
 
 class AuthorBook extends BaseModel
 {

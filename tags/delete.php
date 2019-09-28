@@ -1,5 +1,5 @@
 <?php
-include_once("../models/Tag.php");
+require "../models/Tag.php";
 
 
 if (isset($_GET['del'])) {

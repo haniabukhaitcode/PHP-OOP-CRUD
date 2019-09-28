@@ -1,6 +1,6 @@
 <?php
 if (isset($_POST['save_book'])) {
-    require_once("./models/Model.php");
+    require "./models/Model.php";
     $book = new Book;
     $book->update(
         $_POST['id'],
