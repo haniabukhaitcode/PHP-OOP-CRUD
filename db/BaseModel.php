@@ -106,10 +106,10 @@ class BaseModel
     {
         $stmt = '';
         foreach ($data as $key => $value) {
-            $stmt .= $key . "=:" . $value . ",";
+            $stmt .= $key . " = :" . $value . " , ";
         }
         $stmt = rtrim($stmt, ',');
-        $sql = $this->conn->prepare('update ' . $this->table . ' set ' . $stmt . ' where ' . $this->primary_key . ' = ' . $id);
+        $sql = $this->conn->prepare('update ' . $this->table . ' set ' . $stmt . ' where ' . $this->primary_key . ' = :' . $id);
         $sql->execute();
         return true;
     }

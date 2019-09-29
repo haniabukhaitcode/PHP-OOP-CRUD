@@ -5,23 +5,22 @@ $id = isset($_GET['id']) ? $_GET['id'] : die('ERROR: missing ID.');
 require_once '../models/Author.php';
 $author = new Author();
 
-$author->fetchOne($id);
+$author = $author->fetchOne($_GET['id']);
 
-
-if ($_POST) {
+?>
+<?php
+if (isset($_POST['save_author'])) {
+    require_once '../models/Author.php';
+    $author = new Author;
     $author->update(
         $_POST['id'],
-
         [
-            "author" => $_POST["author"]
+            'author' => $_POST['author']
         ]
-
     );
-    header("location: index.php");
 }
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -43,22 +42,21 @@ if ($_POST) {
         <div class="row">
             <div class="col-lg-12">
                 <div class="jumbotron">
-                    <h4 class="mb-4">Edit Authors</h4>
+                    <h4 class="mb-4">Add Authors</h4>
+                    <form action="index.php" class="form" method="post">
+                        <input type="hidden" name="id" value="<?php echo $author->id; ?>">
+                        <div class="form-group">
 
-                    <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"] . "?id={$id}"); ?>" method="post" enctype="multipart/form-data">
-                        <div>
-                            <input type='text' name='author' value='<?= $author->author['author']; ?>' class='form-control' />
+                            <input type="text" name="author" value="<?php echo $author->author; ?>" class="form-control" placeholder="Enter author name">
                         </div>
-
-                        <div class="mt-3">
-                            <button type="submit" class="btn btn-primary">Update</button>
-                        </div>
+                        <input type="submit" name="save_author" class="btn btn-primary" />
                     </form>
-
                 </div>
             </div>
         </div>
+    </div>
 
 </body>
 
 </html>
+<?php
