@@ -1,6 +1,7 @@
 <?php
 require_once("../db/BaseModel.php");
 require_once("../models/BookTags.php");
+
 class Book extends BaseModel
 {
     protected $fields = [
@@ -104,14 +105,14 @@ class Book extends BaseModel
 
     function updateBook(int $id, array $data)
     { {
-            $tagModel = new BookTags(); //books_tags(book_id, tag_id)
-            $imageName = $this->uploadPhoto($data['image'])["name"]; // go inside image array and get the name 'image' => 'name.jpg'
-            $tags = $data['tags']; // go inside tags table get the ids selected
-            unset($data['image']); // remove 'image' only from 'image'=>'name'
-            unset($data['tags']); // remove 'tags' only from 'image'=>'name'
-            $data['book_image'] = $imageName; // add book_image to get book_image => name.jpg
+            $tagModel = new BookTags();
+            $imageName = $this->uploadPhoto($data['image'])["name"];
+            $tags = $data['tags'];
+            unset($data['image']);
+            unset($data['tags']);
+            $data['book_image'] = $imageName;
             $this->delete($id);
-            foreach ($tags as $tag) { //go inside tags and get the tag foreach raw
+            foreach ($tags as $tag) {
                 $tagModel->insert(array(
                     "tag_id" => $tag,
                     "book_id" => $id

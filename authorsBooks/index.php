@@ -4,14 +4,8 @@ $id = isset($_GET['id']) ? $_GET['id'] : die('ERROR: missing ID.');
 
 
 include_once '../models/authorbooks.php';
-include_once '../models/books.php';
-include_once '../models/authors.php';
 
-$database = new Database();
-
-$db = $database->getConnection();
-
-$authorBook = new AuthorBook($db);
+$authorBook = new AuthorBook();
 
 $result = $authorBook->fetchAuthorBooks($id);
 
@@ -44,16 +38,16 @@ $result = $authorBook->fetchAuthorBooks($id);
                     <h4 class="col-12 mb-3" name="author"> Title</h4>
                 </div>
 
-                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?id={$id}"); ?>" method="post" enctype="multipart/form-data">
+                <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"] . "?id={$id}"); ?>" method="post" enctype="multipart/form-data">
                     <div class="row no-gutters">
                         <?php
                         foreach ($result as $row) :  ?>
 
                             <div class="card col">
-                                <?php echo '<img class="card-img-top" src="/books/uploads/' . $row["book_image"] . '" alt="no_image";"> </img>'; ?>
+                                <?= '<img class="card-img-top" src="/books/uploads/' . $row["book_image"] . '" alt="no_image";"> </img>'; ?>
                                 <div class="card-body">
-                                    <p class="card-text">Author Name: <?php echo $row['author']; ?></p>
-                                    <p class="card-text">Book Title: <?php echo $row['title']; ?></p>
+                                    <p class="card-text">Author Name: <?= $row['author']; ?></p>
+                                    <p class="card-text">Book Title: <?= $row['title']; ?></p>
                                 </div>
                             </div>
 
