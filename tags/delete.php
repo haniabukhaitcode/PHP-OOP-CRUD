@@ -1,7 +1,5 @@
 <?php
-include_once("../models/Tag.php");
-
-
+require_once "../models/Tag.php";
 if (isset($_GET['del'])) {
     $id = $_GET['del'];
     $tag = new Tag;
