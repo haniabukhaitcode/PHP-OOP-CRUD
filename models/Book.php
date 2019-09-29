@@ -101,6 +101,7 @@ class Book extends BaseModel
             ));
         }
     }
+
     function updateBook(int $id, array $data)
     { {
             $tagModel = new BookTags(); //books_tags(book_id, tag_id)

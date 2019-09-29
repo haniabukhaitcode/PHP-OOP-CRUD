@@ -16,6 +16,7 @@ if (isset($_POST['save_author'])) {
         ],
         ["id" => $_POST['id']]
     );
+    header("location:index.php");
 }
 
 ?>

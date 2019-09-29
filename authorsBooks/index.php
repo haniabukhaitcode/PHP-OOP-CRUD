@@ -1,3 +1,23 @@
+<?php
+
+$id = isset($_GET['id']) ? $_GET['id'] : die('ERROR: missing ID.');
+
+
+include_once '../models/authorbooks.php';
+include_once '../models/books.php';
+include_once '../models/authors.php';
+
+$database = new Database();
+
+$db = $database->getConnection();
+
+$authorBook = new AuthorBook($db);
+
+$result = $authorBook->fetchAuthorBooks($id);
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,9 +31,7 @@
 
 <body>
     <!-- Navbar -->
-    <?php require_once '../navbar.html';
-    $id = isset($_GET['id']) ? $_GET['id'] : die('ERROR: missing ID.');
-    ?>
+    <?php include('../navbar.html'); ?>
 
 
     <!-- Table -->
@@ -25,20 +43,21 @@
                 <div class="row">
                     <h4 class="col-12 mb-3" name="author"> Title</h4>
                 </div>
+
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?id={$id}"); ?>" method="post" enctype="multipart/form-data">
                     <div class="row no-gutters">
                         <?php
-                        require_once "../db/BaseModel.php";
-                        require_once '../models/AuthorBook.php';
+                        foreach ($result as $row) :  ?>
 
-                        $authorBook = new AuthorBook();
-                        foreach ($authorBook->fetchAuthorBooks($id) as $row) :  ?>
                             <div class="card col">
-                                <?= '<img class="card-img-top" src="/PHP-OOP-CRUD/static' . $row->book_image . '" alt="no_image";"> </img>'; ?>
+                                <?php echo '<img class="card-img-top" src="/books/uploads/' . $row["book_image"] . '" alt="no_image";"> </img>'; ?>
                                 <div class="card-body">
-                                    <p class="card-text">Author Name: <?= $row->author; ?></p>
+                                    <p class="card-text">Author Name: <?php echo $row['author']; ?></p>
+                                    <p class="card-text">Book Title: <?php echo $row['title']; ?></p>
                                 </div>
                             </div>
+
+
                         <?php endforeach; ?>
                 </form>
             </div>
