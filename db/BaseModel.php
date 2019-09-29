@@ -80,38 +80,27 @@ class BaseModel
         return $this->conn->query($query)->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function test(array $data)
-    {
 
-        // array_shift($this->fields);
-        $insertedKeys = array();
-        foreach ($data as $key => $val) {
-            $insertedKeys[] = $key;
-        }
-        $fields = implode(',', $insertedKeys);
-        $parameters = $this->arrayKeys($data);
-        $keys = implode(',', array_keys($parameters));
-
-        $sql = $this->conn->prepare("insert into  " . $this->table .  "($fields) values($keys)");
-        foreach ($data as $key => $val) {
-            $sql->bindValue(':' . $key, $val);
-        }
-        $sql->execute();
-
-        print_r($sql->errorInfo());
-        return true;
-    }
-
-    public function update(int $id, array $data)
+    public function update(array $data, array $where)
     {
         $stmt = '';
         foreach ($data as $key => $value) {
-            $stmt .= $key . " = :" . $value . " , ";
+            $stmt .= $key . " = :" . $key . " , ";
         }
-        $stmt = rtrim($stmt, ',');
-        $sql = $this->conn->prepare('update ' . $this->table . ' set ' . $stmt . ' where ' . $this->primary_key . ' = :' . $id);
-        $sql->execute();
-        return true;
+
+        $wstmt = '';
+        foreach ($where as $key => $value) {
+            $wstmt .= $key . " = " . $value;
+        }
+
+        $stmt = rtrim($stmt, ' , ');
+
+        $sql = $this->conn->prepare('update ' . $this->table . ' set ' . $stmt . ' where ' . $wstmt);
+        foreach ($data as $key => $val) {
+            $sql->bindValue(':' . $key, $val);
+        }
+
+        return $sql->execute();
     }
 
 

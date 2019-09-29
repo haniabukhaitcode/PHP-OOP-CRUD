@@ -3,20 +3,18 @@
 $id = isset($_GET['id']) ? $_GET['id'] : die('ERROR: missing ID.');
 
 require_once '../models/Author.php';
-$author = new Author();
-
-$author = $author->fetchOne($_GET['id']);
-
-?>
-<?php
+$authorMapper = new Author();
+$author = $authorMapper->fetchOne($_GET['id']);
+//var_dump($_POST);
+//die;
 if (isset($_POST['save_author'])) {
-    require_once '../models/Author.php';
-    $author = new Author;
-    $author->update(
-        $_POST['id'],
+
+    $authorMapper->update(
+
         [
             'author' => $_POST['author']
-        ]
+        ],
+        ["id" => $_POST['id']]
     );
 }
 
@@ -43,13 +41,13 @@ if (isset($_POST['save_author'])) {
             <div class="col-lg-12">
                 <div class="jumbotron">
                     <h4 class="mb-4">Add Authors</h4>
-                    <form action="index.php" class="form" method="post">
+                    <form action="edit.php?id=<?php echo $author->id; ?>" class="form" method="post">
                         <input type="hidden" name="id" value="<?php echo $author->id; ?>">
                         <div class="form-group">
 
                             <input type="text" name="author" value="<?php echo $author->author; ?>" class="form-control" placeholder="Enter author name">
                         </div>
-                        <input type="submit" name="save_author" class="btn btn-primary" />
+                        <input type="submit" name="save_author" value="save_author" class="btn btn-primary" />
                     </form>
                 </div>
             </div>

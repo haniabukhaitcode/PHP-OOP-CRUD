@@ -14,21 +14,30 @@ $table = 'books';
 $primary_key = 'id';
 $id = 1;
 $data = [
-    "id" => "id",
-    "author" => "author"
+    "id" => 1,
+    "author" => "author 6"
+];
+
+$where = [
+    "id" => 1,
 ];
 
 
 $stmt = '';
 
+
+
 foreach ($data as $key => $value) {
     $stmt .= $key . " = :" . $value . " , ";
 }
-print_r($stmt . "<br>"); // title='myTitle',author='myAuthor',tags='myTags',image='myImage',
-$stmt = rtrim($stmt, ', ');
-print_r($stmt . "<br>"); //title='myTitle',author='myAuthor',tags='myTags',image='myImage'
 
-$sql = ('update ' . $table . ' set ' . $stmt . ' where ' . $primary_key . ' = :' . $id);
+
+$wstmt = '';
+foreach ($where as $key => $value) {
+    $wstmt .= $key . " = " . $value;
+}
+$stmt = rtrim($stmt, ' , ');
+$sql = ('update ' . $table . ' set ' . $stmt . ' where ' . $wstmt);
 
 print_r($sql . "<br>"); // update books set title='myTitle',author='myAuthor',tags='myTags',image='myImage' where id = 1
 
