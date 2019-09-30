@@ -42,11 +42,11 @@ if (isset($_POST['save_tag'])) {
             <div class="col-lg-12">
                 <div class="jumbotron">
                     <h4 class="mb-4">Add Tags</h4>
-                    <form action="edit.php?id=<?php echo $tag->id; ?>" class="form" method="post">
-                        <input type="hidden" name="id" value="<?php echo $tag->id; ?>">
+                    <form action="edit.php?id=<= $tag->id; ?>" class="form" method="post">
+                        <input type="hidden" name="id" value="<= $tag->id; ?>">
                         <div class="form-group">
 
-                            <input type="text" name="tag" value="<?php echo $tag->tag; ?>" class="form-control" placeholder="Enter tag name">
+                            <input type="text" name="tag" value="<= $tag->tag; ?>" class="form-control" placeholder="Enter tag name">
                         </div>
                         <input type="submit" name="save_tag" value="save_tag" class="btn btn-primary" />
                     </form>

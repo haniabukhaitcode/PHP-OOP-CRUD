@@ -58,7 +58,7 @@ class BaseModel
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
-    public function fetchRaw()
+    public function fetchRow()
 
     {
         return $this->conn->query("select " . implode(',', $this->fields) . " from " . $this->table)->fetchAll();

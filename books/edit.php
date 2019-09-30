@@ -44,7 +44,7 @@ if ($_POST) {
                             <?php
                             require '../models/Author.php';
                             $author = new Author();
-                            foreach ($author->fetchRaw() as $row) :
+                            foreach ($author->fetchRow() as $row) :
                                 if ($book->author_id == $row['id']) :
                                     ?>
                                     <option selected value="<?= $row['id'] ?>"><?= $row['author'] ?></option>
@@ -60,11 +60,13 @@ if ($_POST) {
                             <?php
                             require '../models/Tag.php';
                             $tag = new Tag();
-                            foreach ($tag->fetchRaw() as $row) : ?>
-                                <option value=<?= $row['id'] ?>><?= $row['tag'] ?></option>
-                            <?php endforeach; ?>
-
-
+                            foreach ($tag->fetchRow() as $row) :
+                                if (in_array($row['id'], $row->tags)) : ?>
+                                    <option selected value=<?= $row['id'] ?>><?= $row['tag'] ?></option>
+                                <?php else : ?>
+                                    <option value=<?= $row['id'] ?>><?= $row['tag'] ?></option>
+                            <?php endif;
+                            endforeach; ?>
                         </select>
                         <div>
                             <div class="mt-3">

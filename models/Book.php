@@ -51,7 +51,7 @@ class Book extends BaseModel
         unset($data['tags']);
         $data['book_image'] = $imageName;
         $this->insert($data);
-        $insertedId = $this->fetchRaw($lastId);
+        $insertedId = $this->fetchRow($lastId);
         $bookId =  $insertedId[0]["id"];
         foreach ($tags as $tag) {
             $tagModel->insert(array(
