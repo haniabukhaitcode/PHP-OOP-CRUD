@@ -47,40 +47,40 @@ class Book extends BaseModel
         return $result;
     }
 
-    function readOne($id)
-    {
-        $query = "SELECT
-        books.id,
-        books.title,
-        books.book_image,
-        authors.id author,
-        GROUP_CONCAT(tags.id SEPARATOR ',') tags
-        
-        FROM
-            books
+    // function readOne($id)
+    // {
+    // $query = "SELECT
+    // books.id,
+    // books.title,
+    // books.book_image,
+    // authors.id author,
+    // GROUP_CONCAT(tags.id SEPARATOR ',') tags
 
-        JOIN
-            authors
-        ON
-            authors.id = books.author_id
+    // FROM
+    //     books
 
-        JOIN
-            books_tags
-        ON
-            books_tags.book_id = books.id
+    // JOIN
+    //     authors
+    // ON
+    //     authors.id = books.author_id
 
-        JOIN
-            tags
-        ON
-            tags.id = books_tags.tag_id
+    // JOIN
+    //     books_tags
+    // ON
+    //     books_tags.book_id = books.id
+
+    // JOIN
+    //     tags
+    // ON
+    //     tags.id = books_tags.tag_id
 
 
-        WHERE 
-            books.id = ?
+    // WHERE 
+    //     books.id = ?
 
-        GROUP BY
-            books.id";
-    }
+    // GROUP BY
+    //     books.id";
+    // }
 
     public function insertBook(array $data)
     {
@@ -104,20 +104,23 @@ class Book extends BaseModel
     }
 
     function updateBook(int $id, array $data)
-    { {
-            $tagModel = new BookTags();
-            $imageName = $this->uploadPhoto($data['image'])["name"];
-            $tags = $data['tags'];
-            unset($data['image']);
-            unset($data['tags']);
-            $data['book_image'] = $imageName;
-            $this->delete($id);
-            foreach ($tags as $tag) {
-                $tagModel->insert(array(
-                    "tag_id" => $tag,
-                    "book_id" => $id
-                ));
-            }
+    {
+        $tagModel = new BookTags();
+        $imageName = $this->uploadPhoto($data['image'])["name"];
+        $tags = $data['tags'];
+        unset($data['image']);
+        unset($data['tags']);
+        $data['book_image'] = $imageName;
+        $this->update($data, array('id' => $id));
+        // $this->delete($id);
+
+        $tagModel->delete(array("book_id" => $id));
+
+        foreach ($tags as $tag) {
+            $tagModel->insert(array(
+                "tag_id" => $tag,
+                "book_id" => $id
+            ));
         }
     }
 
@@ -152,9 +155,9 @@ class Book extends BaseModel
             if ($check !== false) {
                 // make sure the 'uploads' folder exists
                 // if not, create it
-                if (!is_dir($target_directory)) {
-                    mkdir($target_directory, 775, true);
-                }
+                // if (!is_dir($target_directory)) {
+                //     mkdir($target_directory, 775, true);
+                // }
                 move_uploaded_file($image["tmp_name"], $target_file);
                 return array(
                     "name" => $image["name"]

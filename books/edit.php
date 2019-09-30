@@ -8,17 +8,17 @@ require '../models/Tag.php';
 $book = new Book;
 $author = new Author;
 $tag = new Tag;
-$book->readOne($id);
+// $book->readOne($id);
 
 if ($_POST) {
     $book->updateBook(
 
-        $_POST['id'],
+        $_GET['id'],
 
         [
             "title" => $_POST["title"],
             "author_id" => $_POST["author_id"],
-            "tags" => $_POST["tags"],
+            "tags" => $_POST["tag_id"],
             "image" => $_FILES["book_image"]
         ]
 
@@ -69,13 +69,13 @@ if ($_POST) {
                                 <select class=' form-control' name='tag_id[]' multiple='multiple'>
                                     <?php
                                     $tag = new Tag();
-                                    foreach ($tag->fetchRaw() as $row) :
-                                        if (in_array($row['id'], $book->tagIds)) : ?>
-                                            <option selected value=<?= $row['id'] ?>><?= $row['tag'] ?></option>
-                                        <?php else : ?>
-                                            <option value=<?= $row['id'] ?>><?= $row['tag'] ?></option>
-                                    <?php endif;
-                                    endforeach; ?>
+                                    foreach ($tag->fetchRaw() as $row) : ?>
+
+                                        <option value=<?= $row['id'] ?>><?= $row['tag'] ?></option>
+
+
+                                    <?php endforeach; ?>
+
 
                                 </select>
                                 <div>

@@ -103,12 +103,17 @@ class BaseModel
         return $sql->execute();
     }
 
-
-    public function delete(int $id)
+    public function delete(array $where)
     {
-        $query = "DELETE FROM " . $this->table . " WHERE " . $this->primary_key . " = :id";
+        $wstmt = '';
+
+        foreach ($where as $key => $value) {
+            $wstmt .= $key . " = " . $value;
+        }
+
+        $query = "DELETE FROM " . $this->table . " WHERE " .  $wstmt . " = :id";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindValue(":id", $id);
+        $stmt->bindValue(":id", $wstmt);
         $stmt->execute();
         if ($stmt) {
             header("Location: index.php");
