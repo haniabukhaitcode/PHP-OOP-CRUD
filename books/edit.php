@@ -61,10 +61,7 @@ if ($_POST) {
                             require '../models/Tag.php';
                             $tag = new Tag();
                             foreach ($tag->fetchRaw() as $row) : ?>
-
                                 <option value=<?= $row['id'] ?>><?= $row['tag'] ?></option>
-
-
                             <?php endforeach; ?>
 
 

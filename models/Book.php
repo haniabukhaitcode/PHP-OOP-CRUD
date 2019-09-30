@@ -10,8 +10,6 @@ class Book extends BaseModel
         "book_image",
         "author_id"
     ];
-    // we are receiving title, author_id, tags, image
-    // our table "books" should receive lastId inserted id, title, author_id, book_image
     protected $table = "books";
 
     public function readAll()
@@ -39,63 +37,23 @@ class Book extends BaseModel
             tags.id = books_tags.tag_id
         GROUP BY
             books.id";
-        // $stmt = $this->conn->prepare($query);
-        // $stmt->execute();
-        // return $stmt;
-        // print_r($stmt->errorInfo());
         $result = $this->fetchAll($query);
         return $result;
     }
 
-    // function readOne($id)
-    // {
-    // $query = "SELECT
-    // books.id,
-    // books.title,
-    // books.book_image,
-    // authors.id author,
-    // GROUP_CONCAT(tags.id SEPARATOR ',') tags
-
-    // FROM
-    //     books
-
-    // JOIN
-    //     authors
-    // ON
-    //     authors.id = books.author_id
-
-    // JOIN
-    //     books_tags
-    // ON
-    //     books_tags.book_id = books.id
-
-    // JOIN
-    //     tags
-    // ON
-    //     tags.id = books_tags.tag_id
-
-
-    // WHERE 
-    //     books.id = ?
-
-    // GROUP BY
-    //     books.id";
-    // }
-
     public function insertBook(array $data)
     {
-
         $tagModel = new BookTags();
         $lastId = "select max(id) id from " . $this->table . "";
-        $imageName = $this->uploadPhoto($data['image'])["name"]; // go inside image array and get the name 'image' => 'name.jpg'
-        $tags = $data['tags']; // go inside tags table get the ids selected
-        unset($data['image']); // remove 'image' only from 'image'=>'name'
-        unset($data['tags']); // remove 'tags' only from 'image'=>'name'
-        $data['book_image'] = $imageName; // add book_image to get book_image => name.jpg
-        $this->insert($data); // modify inserted data
-        $insertedId = $this->fetchRaw($lastId); //fetch last inserted id raw
-        $bookId =  $insertedId[0]["id"]; //get last id number inserted
-        foreach ($tags as $tag) { //go inside tags and get the tag foreach raw
+        $imageName = $this->uploadPhoto($data['image'])["name"];
+        $tags = $data['tags'];
+        unset($data['image']);
+        unset($data['tags']);
+        $data['book_image'] = $imageName;
+        $this->insert($data);
+        $insertedId = $this->fetchRaw($lastId);
+        $bookId =  $insertedId[0]["id"];
+        foreach ($tags as $tag) {
             $tagModel->insert(array(
                 "tag_id" => $tag,
                 "book_id" => $bookId
@@ -112,10 +70,7 @@ class Book extends BaseModel
         unset($data['tags']);
         $data['book_image'] = $imageName;
         $this->update($data, array('id' => $id));
-        // $this->delete($id);
-
         $tagModel->delete(array("book_id" => $id));
-
         foreach ($tags as $tag) {
             $tagModel->insert(array(
                 "tag_id" => $tag,
