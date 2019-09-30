@@ -114,7 +114,7 @@ class Book extends BaseModel
         $this->update($data, array('id' => $id));
         // $this->delete($id);
 
-        $tagModel->delete(array("book_id" => $id));
+        $tagModel->delete(array("tag_id" => $id));
 
         foreach ($tags as $tag) {
             $tagModel->insert(array(

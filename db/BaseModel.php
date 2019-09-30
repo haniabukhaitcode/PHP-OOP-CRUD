@@ -111,7 +111,7 @@ class BaseModel
             $wstmt .= $key . " = " . $value;
         }
 
-        $query = "DELETE FROM " . $this->table . " WHERE " .  $wstmt . " = :id";
+        $query = "DELETE FROM " . $this->table . " WHERE " .  $wstmt;
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(":id", $wstmt);
         $stmt->execute();
