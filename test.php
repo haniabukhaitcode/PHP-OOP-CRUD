@@ -1,45 +1,33 @@
 <?php
-$arr = [
-    'id' =>
-    [
-        "title" => ["title"],
-        "author_id" => ["author_id"],
-        "tags" => ["tags"],
-        "image" => ["book_image"],
-    ]
-];
-
-
-$table = 'books';
-$primary_key = 'id';
-$id = 1;
 $data = [
-    "id" => 1,
-    "author" => "author 6"
+    "title" => ["title"],
+    "author_id" => ["author_id"],
+    "tags" => ["tags"],
+    "image" => ["book_image"]
+
 ];
-
-$where = [
-    "id" => 1,
-];
-
-
-$stmt = '';
-
-
-
-foreach ($data as $key => $value) {
-    $stmt .= $key . " = :" . $value . " , ";
+$table = "books";
+$arr = [];
+foreach ($data as $key => $newKey) {
+    $arr[':' . $key] = $newKey;
 }
 
+print_r($arr);
+//([:title] => Array ( [0] => title ) [:author_id] => Array ( [0] => author_id ) [:tags] => Array ( [0] => tags ) [:image] => Array ( [0] => book_image ) )
 
-$wstmt = '';
-foreach ($where as $key => $value) {
-    $wstmt .= $key . " = " . $value;
+$insertedKeys = array();
+foreach ($data as $key => $val) {
+    $insertedKeys[] = $key;
 }
-$stmt = rtrim($stmt, ' , ');
-$sql = ('update ' . $table . ' set ' . $stmt . ' where ' . $wstmt);
+$fields = implode(',', $insertedKeys);
+print_r("<br>" . $fields . "<br>"); //title,author_id,tags,image
 
-print_r($sql . "<br>"); // update books set title='myTitle',author='myAuthor',tags='myTags',image='myImage' where id = 1
 
-// $query = "SELECT " . implode(',', $fields) . " FROM " . $table . " where id = 1 ";
-// print_r($query); // update books set title='myTitle',author='myAuthor',tags='myTags',image='myImage' where id = 1
+$arrKey =  [":title" => "val", ":author_id" => "val",  ":tags" => "val", ":image" => "val"];
+$keys = implode(',', array_keys($arrKey));
+print_r($keys . "<br>"); // :title,:author_id,:tags,:image
+
+
+$stmt = "insert into  " . $table .  " ($fields) values($keys)";
+
+print_r($stmt);

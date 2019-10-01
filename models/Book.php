@@ -44,15 +44,14 @@ class Book extends BaseModel
     public function insertBook(array $data)
     {
         $tagModel = new BookTags();
-        $lastId = "select max(id) id from " . $this->table . "";
+
         $imageName = $this->uploadPhoto($data['image'])["name"];
         $tags = $data['tags'];
         unset($data['image']);
         unset($data['tags']);
         $data['book_image'] = $imageName;
         $this->insert($data);
-        $insertedId = $this->fetchRow($lastId);
-        $bookId =  $insertedId[0]["id"];
+        $bookId = $this->conn->lastInsertId();
         foreach ($tags as $tag) {
             $tagModel->insert(array(
                 "tag_id" => $tag,

@@ -6,7 +6,7 @@ class BaseModel
 {
     protected $fields = [];
     protected $table;
-    private $conn;
+    protected $conn;
     protected $primary_key = 'id';
     public function __construct()
     {
@@ -33,14 +33,16 @@ class BaseModel
         }
         $fields = implode(',', $insertedKeys);
         $parameters = $this->arrayKeys($data);
+
         $keys = implode(',', array_keys($parameters));
-        $sql = $this->conn->prepare("insert into  " . $this->table .  "($fields) values($keys)");
+
+        $sql = $this->conn->prepare("insert into  " . $this->table .  " ($fields) values($keys)");
         foreach ($data as $key => $val) {
             $sql->bindValue(':' . $key, $val);
         }
         $sql->execute();
-        print_r($sql->errorInfo());
-        return true;
+
+        return $sql;
     }
 
 

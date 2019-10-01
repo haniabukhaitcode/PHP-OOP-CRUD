@@ -181,10 +181,7 @@ MODIFY
   --
   -- Constraints for table `books_tags`
   --
-ALTER TABLE
-  `books_tags`
-ADD
-  CONSTRAINT `books_tags_ibfk_1` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
 ALTER TABLE
   `books_tags`
 ADD

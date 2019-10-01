@@ -1,7 +1,6 @@
 <?php require_once('../navbar.html'); ?>
 <?php require '../models/Book.php';
-require '../models/Author.php';
-require '../models/Tag.php';
+
 if ($_POST) {
     $book = new Book;
     $book->insertBook(
@@ -12,7 +11,8 @@ if ($_POST) {
             "image" => $_FILES["book_image"]
         ]
     );
-    header("Location: index.php");
+    print_r($book);
+    //header("Location: index.php");
 }
 ?>
 <div class="container mt-4">
@@ -32,6 +32,7 @@ if ($_POST) {
                         <div class="mb-3">
                             <select class='form-control' name="author_id">
                                 <?php
+                                require '../models/Author.php';
                                 $author = new Author();
                                 foreach ($author->fetchAll() as $row) : ?>
                                     <option value="<?= $row->id; ?>"><?= $row->author; ?></a></option>
@@ -43,9 +44,11 @@ if ($_POST) {
                         <label>Tag</label>
                         <select class='form-control' name="tags[]" multiple="multiple">
                             <?php
+                            require '../models/Tag.php';
                             $tag = new Tag();
-                            foreach ($tag->fetchAll() as $row) : ?>
-                                <option value="<?= $row->id; ?>"><?= $row->tag; ?></a></option>
+                            $result = $tag->fetchRow();
+                            foreach ($result as $row) : ?>
+                                <option value="<?= $row['id']; ?>"><?= $row['tag']; ?></a></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
