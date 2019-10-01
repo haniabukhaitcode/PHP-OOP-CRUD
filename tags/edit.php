@@ -5,10 +5,7 @@ $id = isset($_GET['id']) ? $_GET['id'] : die('ERROR: missing ID.');
 require_once '../models/Tag.php';
 $tagMapper = new Tag();
 $tag = $tagMapper->fetchOne($_GET['id']);
-//var_dump($_POST);
-//die;
 if (isset($_POST['save_tag'])) {
-
     $tagMapper->update(
 
         [
@@ -21,7 +18,6 @@ if (isset($_POST['save_tag'])) {
     );
     header("location:index.php");
 }
-
 ?>
 
 <?php require_once '../navbar.html';

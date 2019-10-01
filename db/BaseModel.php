@@ -7,7 +7,6 @@ class BaseModel
     protected $fields = [];
     protected $table;
     protected $conn;
-    protected $primary_key = 'id';
     public function __construct()
     {
         $connection = new Connection();
@@ -15,7 +14,6 @@ class BaseModel
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
     }
 
-    // we get the values from the array
     public function arrayKeys(array $data)
     {
         $arr = [];
@@ -26,7 +24,7 @@ class BaseModel
     }
     public function insert(array $data)
     {
-        // array_shift($this->fields);
+
         $insertedKeys = array();
         foreach ($data as $key => $val) {
             $insertedKeys[] = $key;
@@ -45,6 +43,11 @@ class BaseModel
         return $sql;
     }
 
+    public function fetchRow()
+
+    {
+        return $this->conn->query("select " . implode(',', $this->fields) . " from " . $this->table)->fetchAll();
+    }
 
     public function fetchOne(int $id)
     {
@@ -55,18 +58,6 @@ class BaseModel
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
-    public function fetchRow()
-
-    {
-        return $this->conn->query("select " . implode(',', $this->fields) . " from " . $this->table)->fetchAll();
-    }
-
-    public function getById(int $id)
-    {
-        return $this->conn->query("select " . implode(',', $this->fields) . " from " . $this->table . " where id = " . $id)->fetchAll(PDO::FETCH_OBJ)[0];
-    }
-
-
     public function fetchAll($row = null)
     {
         if ($row != null) {
@@ -76,7 +67,6 @@ class BaseModel
         }
         return $this->conn->query($query)->fetchAll(PDO::FETCH_OBJ);
     }
-
 
     public function update(array $data, array $where)
     {
@@ -103,7 +93,6 @@ class BaseModel
     public function delete(array $where)
     {
         $wstmt = '';
-
         foreach ($where as $key => $value) {
             $wstmt .= $key . " = " . $value;
         }

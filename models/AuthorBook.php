@@ -1,31 +1,34 @@
 <?php
-require_once "../db/BaseModel.php";
+require_once("../db/BaseModel.php");
+require_once("../models/BookTags.php");
 class AuthorBook extends BaseModel
 {
     protected $fields = [
         "id",
-        "author"
+        "author_id",
+        "title",
+        "book_image"
+
     ];
-    // we are receiving title, author_id, tags, image
-    // our table "books" should receive lastId inserted id, title, author_id, book_image
     protected $table = "books";
-    function fetchAuthorBooks()
-    {
-        $query = "SELECT
-        books.id,
-        books.title,
-        books.book_image,
-        books.author_id,
-        authors.author author
-   
-    FROM
-        books
-    JOIN
-        authors
-    ON
-        authors.id = books.author_id
-    WHERE
-        books.author_id = ?";
-        return $query;
-    }
+
+    // function fetchAuthorBooks()
+    // {
+    //     $query = "SELECT 
+    //     books.id,
+    //     books.title,
+    //     books.book_image,
+    //     books.author_id,
+    //     authors.author author
+    //     FROM
+    //         books
+    //     LEFT JOIN
+    //         authors
+    //     ON
+    //         authors.id = books.author_id   
+    //     GROUP BY
+    //         books.id";
+    //     $result = $this->fetchAll($query);
+    //     return $result;
+    // }
 }
