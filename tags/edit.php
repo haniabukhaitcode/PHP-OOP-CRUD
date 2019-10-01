@@ -14,7 +14,10 @@ if (isset($_POST['save_tag'])) {
         [
             'tag' => $_POST['tag']
         ],
-        ["id" => $_POST['id']]
+
+        [
+            "id" => $_POST['id']
+        ]
     );
     header("location:index.php");
 }

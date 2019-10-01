@@ -1,24 +1,23 @@
 <?php
 require_once "../db/BaseModel.php";
-
 class AuthorBook extends BaseModel
 {
     protected $fields = [
         "id",
-        "title",
-        "book_image",
-        "author_id"
+        "author"
     ];
-
+    // we are receiving title, author_id, tags, image
+    // our table "books" should receive lastId inserted id, title, author_id, book_image
     protected $table = "books";
-
     function fetchAuthorBooks()
     {
         $query = "SELECT
         books.id,
         books.title,
         books.book_image,
+        books.author_id,
         authors.author author
+   
     FROM
         books
     JOIN
@@ -26,6 +25,7 @@ class AuthorBook extends BaseModel
     ON
         authors.id = books.author_id
     WHERE
-        books.author_id";
+        books.author_id = ?";
+        return $query;
     }
 }

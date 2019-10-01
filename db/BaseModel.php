@@ -24,10 +24,8 @@ class BaseModel
         }
         return $arr;
     }
-
     public function insert(array $data)
     {
-
         // array_shift($this->fields);
         $insertedKeys = array();
         foreach ($data as $key => $val) {
@@ -36,13 +34,11 @@ class BaseModel
         $fields = implode(',', $insertedKeys);
         $parameters = $this->arrayKeys($data);
         $keys = implode(',', array_keys($parameters));
-
         $sql = $this->conn->prepare("insert into  " . $this->table .  "($fields) values($keys)");
         foreach ($data as $key => $val) {
             $sql->bindValue(':' . $key, $val);
         }
         $sql->execute();
-
         print_r($sql->errorInfo());
         return true;
     }
@@ -50,7 +46,6 @@ class BaseModel
 
     public function fetchOne(int $id)
     {
-
         $query = "SELECT " . implode(',', $this->fields) . " FROM " . $this->table . " where id = ? ";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $id);
