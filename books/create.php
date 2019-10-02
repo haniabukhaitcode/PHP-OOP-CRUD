@@ -11,7 +11,7 @@ if ($_POST) {
         ]
     );
     print_r($book);
-    header("Location: index.php");
+    //header("Location: index.php");
 }
 ?>
 
@@ -45,9 +45,9 @@ require_once '../header.html'; ?>
                 <?php
                 require '../models/Tag.php';
                 $tag = new Tag();
-                $result = $tag->fetchRow();
+                $result = $tag->fetchAll();
                 foreach ($result as $row) : ?>
-                    <option value="<?= $row['id']; ?>"><?= $row['tag']; ?></a></option>
+                    <option value="<?= $row->id; ?>"><?= $row->tag; ?></a></option>
                 <?php endforeach; ?>
             </select>
         </div>

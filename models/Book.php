@@ -1,7 +1,6 @@
 <?php
 require_once "../db/BaseModel.php";
 require_once "../models/BookTag.php";
-
 class Book extends BaseModel
 {
     protected $fields = [
@@ -11,7 +10,6 @@ class Book extends BaseModel
         "author_id"
     ];
     protected $table = "books";
-
     public function readAll()
     {
         $query = "SELECT 
@@ -20,9 +18,7 @@ class Book extends BaseModel
         books.book_image,
         books.author_id,
         authors.author author,
-        tags.id tag_id,
-        books_tags.tag_id books_tagsID,
-        GROUP_CONCAT(tags.tag SEPARATOR ',') tag
+          GROUP_CONCAT(tags.tag SEPARATOR ',') tag
         FROM
         books
         LEFT JOIN
@@ -41,13 +37,10 @@ class Book extends BaseModel
             books.id";
         $result = $this->fetchAll($query);
         return $result;
-        print_r($result);
     }
-
     public function insertBook(array $data)
     {
         $tagModel = new BookTag();
-
         $imageName = $this->uploadPhoto($data['image'])["name"];
         $tags = $data['tags'];
         unset($data['image']);
@@ -62,6 +55,7 @@ class Book extends BaseModel
             ));
         }
     }
+
 
     function updateBook(int $id, array $data)
     {
@@ -85,26 +79,38 @@ class Book extends BaseModel
 
     private function uploadPhoto($image)
     {
-        $result_message = "";
+
+        $path = date('mdYHis');
         // now, if image is not empty, try to upload the image
+        print_r($path);
         if ($image) {
             // sha1_file() function is used to make a unique file name
-            $target_directory = $_SERVER['DOCUMENT_ROOT'] . "/PHP-OOP-CRUD/static/";
+            $target_directory = $_SERVER['DOCUMENT_ROOT'] . "/PHP-OOP-CRUD/static/$path";
+            print_r($target_directory);
             $target_file = $target_directory  . $image["name"];
-            $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
-            // error message is empty
+            $file_type = pathinfo($path . $target_file, PATHINFO_EXTENSION);
+            // error message is empty`
+            echo "<br> file: ";
+            print_r($file_type);
+            echo "<br>";
             $file_upload_error_messages = "";
             // make sure that file is a real image
             $check = getimagesize($image["tmp_name"]);
+            echo "<br>";
+            print_r($check);
+            echo "<br>";
             // make sure certain file types are allowed
             $allowed_file_types = array("jpg", "jpeg", "png", "gif");
             if (!in_array($file_type, $allowed_file_types)) {
+                echo "<br>";
+                print_r($file_type);
+                echo "<br>";
                 throw new Error("Only JPG, JPEG, PNG, GIF files are allowed.");
             }
             // make sure file does not exist
-            // if (file_exists($target_file)) {
-            //     throw new Error("Image already exists. Try to change file name.");
-            // }
+            if (file_exists($target_file)) {
+                throw new Error("Image already exists. Try to change file name.");
+            }
             // make sure submitted file is not too large, can't be larger than 1 MB
             if ($image['size'] > (99999999999999999999)) {
                 throw new Error("Image must be less than 1 MB in size.");

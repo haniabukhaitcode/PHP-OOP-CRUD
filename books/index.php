@@ -29,14 +29,16 @@ require_once '../header.html'; ?>
                 <th scope="row"><?= $row->id;  ?></th>
                 <td><?= $row->title; ?></td>
                 <td><a href="/PHP-OOP-CRUD/authorsBooks/index.php?id=<?= $row->author_id; ?>"><?= $row->author; ?></a></td>
-                <td><a href="/PHP-OOP-CRUD/test/test.php?id=<?= $row->books_tagsID; ?>"><?= $row->tag; ?></a></td>
+                <td><a href="/PHP-OOP-CRUD/tagsToBooks/index.php?id=<?= $row->id; ?>"><?= $row->tag; ?></a></td>
                 <td><?= '<img src="/PHP-OOP-CRUD/static/' . $row->book_image . '" alt="no_image" style="width:100px;height:100px;"> </img>'; ?></td>
                 <td><a class="btn btn-sm btn-primary" href="edit.php?id=<?= $row->id; ?>">Edit</a> &nbsp; <a class="btn btn-sm btn-danger" href="delete.php?id=<?= $row->id ?>">Delete</a></td>
             </tr>
 
-        <?php print($row->books_tagsID);
+        <?php
         endforeach; ?>
     </tbody>
 </table>
 
 <?php require_once '../footer.html'; ?>
+
+<!-- print($row->books_tagsID); -->
