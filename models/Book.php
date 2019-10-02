@@ -18,7 +18,7 @@ class Book extends BaseModel
         books.book_image,
         books.author_id,
         authors.author author,
-          GROUP_CONCAT(tags.tag SEPARATOR ',') tag
+        GROUP_CONCAT(tags.tag SEPARATOR ',') tag
         FROM
         books
         LEFT JOIN
@@ -82,13 +82,13 @@ class Book extends BaseModel
 
         $path = date('mdYHis');
         // now, if image is not empty, try to upload the image
-        print_r($path);
+
         if ($image) {
             // sha1_file() function is used to make a unique file name
-            $target_directory = $_SERVER['DOCUMENT_ROOT'] . "/PHP-OOP-CRUD/static/$path";
+            $target_directory = $_SERVER['DOCUMENT_ROOT'] . "/PHP-OOP-CRUD/static/";
             print_r($target_directory);
-            $target_file = $target_directory  . $image["name"];
-            $file_type = pathinfo($path . $target_file, PATHINFO_EXTENSION);
+            $target_file = $target_directory . $path . $image["name"];
+            $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
             // error message is empty`
             echo "<br> file: ";
             print_r($file_type);
@@ -100,8 +100,8 @@ class Book extends BaseModel
             print_r($check);
             echo "<br>";
             // make sure certain file types are allowed
-            $allowed_file_types = array("jpg", "jpeg", "png", "gif");
-            if (!in_array($file_type, $allowed_file_types)) {
+            $allowed_file_types =  array("jpg", "jpeg", "png", "gif");
+            if (!in_array($file_type,  $allowed_file_types)) {
                 echo "<br>";
                 print_r($file_type);
                 echo "<br>";
