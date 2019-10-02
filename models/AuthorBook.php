@@ -13,7 +13,6 @@ class AuthorBook extends BaseModel
 
     function fetchAuthorBooks($id)
     {
-        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $query = "SELECT
         books.id,
         books.author_id,
@@ -32,7 +31,7 @@ class AuthorBook extends BaseModel
         $stmt->bindParam(1, $id);
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_OBJ);
-        print_r($stmt->errorInfo());
+
         return $result;
     }
 }
