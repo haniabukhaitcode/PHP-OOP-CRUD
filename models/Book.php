@@ -109,9 +109,9 @@ class Book extends BaseModel
             if ($check !== false) {
                 // make sure the 'uploads' folder exists
                 // if not, create it
-                if (!is_dir($target_directory)) {
-                    mkdir($target_directory, 777, true);
-                }
+                // if (!is_dir($target_directory)) {
+                //     mkdir($target_directory, 777, true);
+                // }
                 move_uploaded_file($image["tmp_name"], $target_file);
                 return array(
                     "name" => $image["name"]

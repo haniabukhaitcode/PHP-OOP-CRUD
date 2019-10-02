@@ -11,8 +11,9 @@ class AuthorBook extends BaseModel
     ];
     protected $table = "books";
 
-    function fetchAuthorBooks()
+    function fetchAuthorBooks($id)
     {
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $query = "SELECT
         books.id,
         books.author_id,
@@ -24,16 +25,14 @@ class AuthorBook extends BaseModel
     JOIN
         authors
     ON
-        authors.id = books.author_id
+    authors.id = books.author_id
     WHERE
         books.author_id = ?";
-        //   $stmt = $this->conn->prepare($query);
-        //   $stmt->bindParam(1, $id);
-        //   $stmt->execute();
-        //   $result = $stmt->fetchAll();
-        //   return $result;
-        $sql = $this->fetchRow($query);
-
-        return  $sql;
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $id);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+        print_r($stmt->errorInfo());
+        return $result;
     }
 }
