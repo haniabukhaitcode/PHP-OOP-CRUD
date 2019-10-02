@@ -1,6 +1,6 @@
 <?php
-require_once("../db/BaseModel.php");
-require_once("../models/BookTags.php");
+require_once "../db/BaseModel.php";
+require_once "../models/BookTag.php";
 
 class Book extends BaseModel
 {
@@ -20,7 +20,9 @@ class Book extends BaseModel
         books.book_image,
         books.author_id,
         authors.author author,
-        GROUP_CONCAT(tags.tag SEPARATOR ',') tags
+        tags.id tag_id,
+        books_tags.tag_id books_tagsID,
+        GROUP_CONCAT(tags.tag SEPARATOR ',') tag
         FROM
         books
         LEFT JOIN
@@ -39,11 +41,12 @@ class Book extends BaseModel
             books.id";
         $result = $this->fetchAll($query);
         return $result;
+        print_r($result);
     }
 
     public function insertBook(array $data)
     {
-        $tagModel = new BookTags();
+        $tagModel = new BookTag();
 
         $imageName = $this->uploadPhoto($data['image'])["name"];
         $tags = $data['tags'];
@@ -62,7 +65,7 @@ class Book extends BaseModel
 
     function updateBook(int $id, array $data)
     {
-        $tagModel = new BookTags();
+        $tagModel = new BookTag();
         $imageName = $this->uploadPhoto($data['image'])["name"];
         $tags = $data['tags'];
         unset($data['image']);

@@ -1,7 +1,7 @@
 <?php
 require_once "../db/BaseModel.php";
 
-class BookTags extends BaseModel
+class BookTag extends BaseModel
 {
     protected $fields = [
         "tag_id",
