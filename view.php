@@ -40,6 +40,6 @@ function update($id)
         $tagStmnt->bindParam(":book_id", $id);
         $tagStmnt->execute();
     }
-    print_r($stmt->errorInfo());
+
     header("Location: index.php");
 }

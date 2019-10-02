@@ -44,7 +44,6 @@ class BaseModel
     }
 
     public function fetchRow()
-
     {
         return $this->conn->query("select " . implode(',', $this->fields) . " from " . $this->table)->fetchAll();
     }
