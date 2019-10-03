@@ -38,9 +38,10 @@ class BaseModel
         foreach ($data as $key => $val) {
             $sql->bindValue(':' . $key, $val);
         }
-        $sql->execute();
-
-        return $sql;
+        $stmt =  $sql->execute();
+        // echo "<h5>insert func: </h5>";
+        // print_r($stmt);
+        return  $stmt;
     }
 
     public function fetchRow()
@@ -54,6 +55,7 @@ class BaseModel
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $id);
         $stmt->execute();
+
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
@@ -64,7 +66,10 @@ class BaseModel
         } else {
             $query = "SELECT " . implode(',', $this->fields) . " FROM " . $this->table;
         }
-        return $this->conn->query($query)->fetchAll(PDO::FETCH_OBJ);
+        $stmt = $this->conn->query($query)->fetchAll(PDO::FETCH_OBJ);
+        // echo "<h5>fetchAll: </h5>";
+        // print_r($stmt);
+        return $stmt;
     }
 
     public function update(array $data, array $where)
@@ -86,7 +91,9 @@ class BaseModel
             $sql->bindValue(':' . $key, $val);
         }
 
-        return $sql->execute();
+        $stmt =  $sql->execute();
+        // print_r($stmt);
+        return  $stmt;
     }
 
     public function delete(array $where)
@@ -100,6 +107,7 @@ class BaseModel
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(":id", $wstmt);
         $stmt->execute();
+        // print_r($stmt);
         if ($stmt) {
             header("Location: index.php");
         }

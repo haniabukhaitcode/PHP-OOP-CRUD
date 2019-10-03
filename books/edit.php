@@ -19,7 +19,8 @@ if ($_POST) {
         ]
 
     );
-    header("Location: index.php");
+    print_r($book);
+    //header("Location: index.php");
 }
 ?>
 
@@ -39,12 +40,12 @@ require_once '../header.html'; ?>
                 <?php
                 require '../models/Author.php';
                 $author = new Author();
-                foreach ($author->fetchRow() as $row) :
-                    if ($book->author_id == $row['id']) :
+                foreach ($author->fetchAll() as $row) :
+                    if ($book->author_id == $row->id) :
                         ?>
-                        <option selected value="<?= $row['id'] ?>"><?= $row['author'] ?></option>
+                        <option selected value="<?= $row->id ?>"><?= $row->author ?></option>
                     <?php else : ?>
-                        <option value="<?= $row['id'] ?>"><?= $row['author'] ?></option>
+                        <option value="<?= $row->id ?>"><?= $row->author ?></option>
                 <?php endif;
                 endforeach; ?>
             </select>
@@ -55,11 +56,11 @@ require_once '../header.html'; ?>
                 <?php
                 require '../models/Tag.php';
                 $tag = new Tag();
-                foreach ($tag->fetchRow() as $row) :
-                    if (in_array($row['id'], $row->tags)) : ?>
-                        <option selected value=<?= $row['id'] ?>><?= $row['tag'] ?></option>
+                foreach ($tag->fetchAll() as $row) :
+                    if (in_array($row->id, $row->tags)) : ?>
+                        <option selected value=<?= $row->id ?>><?= $row->tag ?></option>
                     <?php else : ?>
-                        <option value=<?= $row['id'] ?>><?= $row['tag'] ?></option>
+                        <option value=<?= $row->id ?>><?= $row->tag ?></option>
                 <?php endif;
                 endforeach; ?>
             </select>

@@ -36,7 +36,7 @@ class TagsToBooks extends BaseModel
         ON
             tags.id = books_tags.tag_id
         WHERE
-            books_tags.tag_id = ?
+        tags.id = ?
         GROUP BY
             books.id";
         $stmt = $this->conn->prepare($query);

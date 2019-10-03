@@ -13,14 +13,16 @@ class Book extends BaseModel
     public function readAll()
     {
         $query = "SELECT 
-        books.id,
-        books.title,
-        books.book_image,
-        books.author_id,
-        authors.author author,
-        GROUP_CONCAT(tags.tag SEPARATOR ',') tag
+            books.id,
+            books.title,
+            books.book_image,
+            books.author_id,
+            authors.author author,
+            tags.id tagID,
+     
+            GROUP_CONCAT(tags.tag SEPARATOR ',') tag
         FROM
-        books
+            books
         LEFT JOIN
             authors
         ON
@@ -38,6 +40,32 @@ class Book extends BaseModel
         $result = $this->fetchAll($query);
         return $result;
     }
+
+    public function fetchTagIDs()
+    {
+        $query = "SELECT  DISTINCT
+        tags.tag,
+       books.id,
+        GROUP_CONCAT(tags.id SEPARATOR ',') tagID 
+    FROM
+        books
+    
+    LEFT JOIN
+        books_tags
+    ON
+        books_tags.book_id = books.id
+    LEFT JOIN
+        tags
+    ON
+        tags.id = books_tags.tag_id
+
+    GROUP BY
+        tags.id";
+
+        $result = $this->fetchAll($query);
+        return $result;
+    }
+
     public function insertBook(array $data)
     {
         $tagModel = new BookTag();
