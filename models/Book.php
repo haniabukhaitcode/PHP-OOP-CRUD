@@ -44,17 +44,21 @@ class Book extends BaseModel
     public function fetchTagIDs()
     {
         $query = "SELECT  DISTINCT
+        books.id,
         tags.tag,
-       books.id,
-        GROUP_CONCAT(tags.id SEPARATOR ',') tagID 
+        books_tags.tag_id  tag_id,
+        books_tags.book_id  book_id,
+    -- ORDER BY v ASC
+    -- SEPARATOR ';')
+        GROUP_CONCAT(DISTINCT tags.id SEPARATOR ',') tagID 
     FROM
         books
     
-    LEFT JOIN
+    JOIN
         books_tags
     ON
         books_tags.book_id = books.id
-    LEFT JOIN
+    JOIN
         tags
     ON
         tags.id = books_tags.tag_id
@@ -146,9 +150,9 @@ class Book extends BaseModel
             if ($check !== false) {
                 // make sure the 'uploads' folder exists
                 // if not, create it
-                // if (!is_dir($target_directory)) {
-                //     mkdir($target_directory, 777, true);
-                // }
+                if (!is_dir($target_directory)) {
+                    mkdir($target_directory, 777, true);
+                }
                 move_uploaded_file($image["tmp_name"], $target_file);
                 return array(
                     "name" => $image["name"]

@@ -10,8 +10,8 @@ if ($_POST) {
             "image" => $_FILES["book_image"]
         ]
     );
-    print_r($book);
-    //header("Location: index.php");
+
+    header("Location: index.php");
 }
 ?>
 

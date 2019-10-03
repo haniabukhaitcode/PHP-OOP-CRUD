@@ -39,8 +39,7 @@ class BaseModel
             $sql->bindValue(':' . $key, $val);
         }
         $stmt =  $sql->execute();
-        // echo "<h5>insert func: </h5>";
-        // print_r($stmt);
+
         return  $stmt;
     }
 
@@ -67,8 +66,7 @@ class BaseModel
             $query = "SELECT " . implode(',', $this->fields) . " FROM " . $this->table;
         }
         $stmt = $this->conn->query($query)->fetchAll(PDO::FETCH_OBJ);
-        // echo "<h5>fetchAll: </h5>";
-        // print_r($stmt);
+
         return $stmt;
     }
 
@@ -92,7 +90,7 @@ class BaseModel
         }
 
         $stmt =  $sql->execute();
-        // print_r($stmt);
+
         return  $stmt;
     }
 
@@ -107,7 +105,7 @@ class BaseModel
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(":id", $wstmt);
         $stmt->execute();
-        // print_r($stmt);
+
         if ($stmt) {
             header("Location: index.php");
         }
