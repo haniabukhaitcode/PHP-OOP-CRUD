@@ -3,7 +3,6 @@ require_once '../navbar.html';
 require_once '../header.html';
 require_once '../models/TagsToBooks.php';
 $id = isset($_GET['id']) ? $_GET['id'] : die('ERROR: missing ID.');
-
 $tagBook = new TagsToBooks();
 $result = $tagBook->fetchTagBooks($id);
 
@@ -34,6 +33,7 @@ $result = $tagBook->fetchTagBooks($id);
         <?php
         foreach ($result as $row) :  ?>
             <div class="card col-4 ml-4">
+
                 <?= '<img class="card-img-top" src="/PHP-OOP-CRUD/static/' . $row->book_image . '" alt="no_image";"> </img>'; ?>
                 <div class="card-body">
                     <p class="card-text">Book Title: <?= $row->title; ?></p>

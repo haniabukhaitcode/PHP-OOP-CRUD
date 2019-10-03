@@ -39,6 +39,8 @@ class TagsToBooks extends BaseModel
         tags.id = ?
         GROUP BY
             books.id";
+
+
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $id);
         $stmt->execute();
