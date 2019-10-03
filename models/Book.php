@@ -10,36 +10,7 @@ class Book extends BaseModel
         "author_id"
     ];
     protected $table = "books";
-    public function readAll()
-    {
-        $query = "SELECT 
-            books.id,
-            books.title,
-            books.book_image,
-            books.author_id,
-            authors.author author,
-            tags.id tagID,
-     
-            GROUP_CONCAT(tags.tag SEPARATOR ',') tag
-        FROM
-            books
-        LEFT JOIN
-            authors
-        ON
-            authors.id = books.author_id
-        LEFT JOIN
-            books_tags
-        ON
-            books_tags.book_id = books.id
-        LEFT JOIN
-            tags
-        ON
-            tags.id = books_tags.tag_id
-        GROUP BY
-            books.id";
-        $result = $this->fetchAll($query);
-        return $result;
-    }
+
 
     public function fetchTagIDs()
     {
@@ -48,11 +19,20 @@ class Book extends BaseModel
         tags.tag,
         books_tags.tag_id  tag_id,
         books_tags.book_id  book_id,
-    -- ORDER BY v ASC
+        books.author_id,
+        authors.author author,
+        books.title,
+        books.book_image,
+          -- ORDER BY v ASC
     -- SEPARATOR ';')
-        GROUP_CONCAT(DISTINCT tags.id SEPARATOR ',') tagID 
+        GROUP_CONCAT(tags.tag SEPARATOR ',') tag, 
+        GROUP_CONCAT(tags.id SEPARATOR ',') tagID 
     FROM
         books
+    JOIN
+        authors
+    ON
+        authors.id = books.author_id
     
     JOIN
         books_tags
@@ -64,7 +44,7 @@ class Book extends BaseModel
         tags.id = books_tags.tag_id
 
     GROUP BY
-        tags.id";
+        books.id";
 
         $result = $this->fetchAll($query);
         return $result;
