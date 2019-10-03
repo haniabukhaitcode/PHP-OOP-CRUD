@@ -100,9 +100,8 @@ class BaseModel
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(":id", $wstmt);
         $stmt->execute();
-        // if ($stmt) {
-        //     header("Location: index.php");
-        // }
-        print_r($stmt);
+        if ($stmt) {
+            header("Location: index.php");
+        }
     }
 }
