@@ -5,42 +5,34 @@ class TagsToBooks extends BaseModel
 {
     protected $fields = [
         "id",
-        "title",
+        "author_id",
         "book_image",
-        "author_id"
+        "title"
     ];
     protected $table = "books";
 
-    public function fetchTagBooks($id)
+    function fetchTagBooks($id)
     {
-        $query =
-            "SELECT 
-            books.id,
-            books.title,
-            books.book_image,
-            authors.author,
-            tags.id tag_id,
-            GROUP_CONCAT(tags.tag SEPARATOR ',') tag
-        FROM
-            books
-        JOIN
-            authors
-        ON
-            authors.id = books.author_id
-        LEFT JOIN
-            books_tags
-        ON
-            books_tags.book_id = books.id
-        LEFT JOIN
-            tags
-        ON
-            tags.id = books_tags.tag_id
-        WHERE
-        tags.id = ?
-        GROUP BY
-            books.id";
-
-
+        $query = "SELECT
+        books.id,
+        tags.tag AS tag,
+        books.book_image,
+        books.title,
+        books_tags.tag_id tag_id,
+        books_tags.book_id book_id
+ 
+    FROM
+        books
+    JOIN
+        books_tags
+    ON
+        books_tags.book_id = books.id
+    JOIN
+        tags
+    ON
+        tags.id = books_tags.tag_id
+    WHERE
+        books_tags.tag_id = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $id);
         $stmt->execute();

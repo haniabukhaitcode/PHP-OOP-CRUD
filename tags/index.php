@@ -21,7 +21,7 @@ require_once '../header.html'; ?>
         foreach ($tags->fetchAll() as $row) : ?>
             <tr>
                 <th scope="row"><?= $row->id; ?></th>
-                <td><?= $row->tag; ?></td>
+                <td><a href="/PHP-OOP-CRUD/tagsToBooks/index.php?id=<?= $row->id; ?>"><?= $row->tag; ?></a></td>
                 <td><a class="btn btn-sm btn-primary" href="edit.php?id=<?= $row->id; ?>">Edit</a> &nbsp; <a class="btn btn-sm btn-danger" href="delete.php?id=<?= $row->id ?>">Delete</a></td>
             </tr>
         <?php endforeach; ?>

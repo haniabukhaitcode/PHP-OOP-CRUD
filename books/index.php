@@ -23,23 +23,20 @@ $book = new Book(); ?>
         //To read data from $_GET in page.php:
 
         foreach ($data as $row) :
-            $array = array([$row->tagID]);
-            $url = "tagsToBooks/index.php?" . http_build_query(array(
-                "array" => $array
-            ));
+
             ?>
 
             <tr>
                 <th><?= $row->id;  ?></th>
                 <td><?= $row->title; ?></td>
                 <td><a href="/PHP-OOP-CRUD/authorsBooks/index.php?id=<?= $row->author_id; ?>"><?= $row->author;  ?></a></td>
-                <td><a href="/PHP-OOP-CRUD/tagsToBooks/index.php?id=<?= $row->tagID; ?> "><?= $row->tag; ?></a></td>
+                <td><a><?= $row->tag; ?></a></td>
                 <td><?= '<img src="/PHP-OOP-CRUD/static/' . $row->book_image . '" alt="no_image" style="width:100px;height:100px;"> </img>'; ?></td>
                 <td><a class="btn btn-sm btn-primary" href="edit.php?id=<?= $row->id; ?>">Edit</a> &nbsp; <a class="btn btn-sm btn-danger" href="delete.php?id=<?= $row->id ?>">Delete</a></td>
             </tr>
 
         <?php
-            print_r($array);
+
         endforeach;
         ?>
     </tbody>
