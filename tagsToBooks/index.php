@@ -37,13 +37,11 @@ if ($_POST) {
     <div class="row no-gutters">
         <?php
         foreach ($result as $row) :  ?>
-            <div class="col-12 ml-4">
-                <h2>
-                    <p><?= $row->tags ?></p>
-                </h2>
-                <div class="card col-4 ml-4">
+            <div class="col-3 ml-3">
+                <?= $row->tags ?>
+                <div class="card">
                     <?= '<img class="card-img-top" src="/PHP-OOP-CRUD/static/' . $row->book_image . '" alt="no_image";"> </img>'; ?>
-                    <div class="card-body">
+                    <div class="card-body ">
                         <p class="card-text">Book Title: <?= $row->title; ?></p>
                     </div>
                 </div>
