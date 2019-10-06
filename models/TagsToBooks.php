@@ -11,14 +11,19 @@ class TagsToBooks extends BaseModel
     ];
     protected $table = "books";
 
-    function fetchTagBooks($id)
+    function fetchTagBooks($ids)
     {
+        
+       
+        if(!is_array($ids)){
+            $ids = array($ids);
+        };
+        $ids = implode(",",$ids);
         $query = "SELECT
         books.id,
-        tags.tag AS tag,
+        GROUP_CONCAT(tags.tag SEPARATOR ',') tags,
         books.book_image,
         books.title,
-        books_tags.tag_id tag_id,
         books_tags.book_id book_id
  
     FROM
@@ -32,12 +37,11 @@ class TagsToBooks extends BaseModel
     ON
         tags.id = books_tags.tag_id
     WHERE
-        books_tags.tag_id = ?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $id);
-        $stmt->execute();
-        $result = $stmt->fetchAll(PDO::FETCH_OBJ);
-
+        books_tags.tag_id IN ($ids)
+    GROUP BY 
+        books.id
+    ";
+        $result = $this->conn->query($query)->fetchAll(PDO::FETCH_OBJ);
         return $result;
     }
 }
