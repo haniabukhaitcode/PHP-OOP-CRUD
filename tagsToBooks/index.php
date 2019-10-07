@@ -38,7 +38,7 @@ if ($_POST) {
         <?php
         foreach ($result as $row) :  ?>
             <div class="col-3 ml-3">
-                <?= $row->tags ?>
+                <?= $row->tag ?>
                 <div class="card">
                     <?= '<img class="card-img-top" src="/PHP-OOP-CRUD/static/' . $row->book_image . '" alt="no_image";"> </img>'; ?>
                     <div class="card-body ">

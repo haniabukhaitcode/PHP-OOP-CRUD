@@ -13,20 +13,7 @@ class AuthorBook extends BaseModel
 
     function fetchAuthorBooks($id)
     {
-        $query = "SELECT
-        books.id,
-        books.author_id,
-        books.title,
-        books.book_image,
-        authors.author author
-    FROM
-        books
-    JOIN
-        authors
-    ON
-    authors.id = books.author_id
-    WHERE
-        books.author_id = ?";
+        $query = "SELECT * FROM fetchAuthorBooks WHERE author_id = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $id);
         $stmt->execute();

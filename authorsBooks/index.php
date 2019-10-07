@@ -15,7 +15,7 @@ $result = $authorBook->fetchAuthorBooks($id);
             <h2>
                 <?php
                 foreach ($result as $row) :  ?>
-                    <?= $row->author;
+                    <?= $row->authorName;
                         break; ?>
                 <?php endforeach; ?></p>
             </h2>
