@@ -45,7 +45,7 @@ class BaseModel
 
     public function fetchRow()
     {
-        return $this->conn->query("select " . implode(',', $this->fields) . " from " . $this->table)->fetchAll(PDO::FETCH_ASSOC);
+        return $this->conn->query("select " . implode(',', $this->fields) . " from " . $this->table)->fetch(PDO::FETCH_ASSOC);
     }
 
     public function fetchOne(int $id)
