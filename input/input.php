@@ -12,8 +12,8 @@
     </script>
     <script>
         $(document).ready(function() {
-            $(".userName").keyup(function() {
-                let name = $(".userName").val();
+            $("#userName").keyup(function() {
+                let name = $("#userName").val();
                 //post takes 3 parameters path/state/data,status
                 $.post("suggestions.php", {
                     suggestion: name
@@ -27,7 +27,7 @@
 </head>
 
 <body>
-    <input class="userName" type="text" name="name">
+    <input id="userName" type="text" name="name">
     <p id="test"></p>
 
 </body>
