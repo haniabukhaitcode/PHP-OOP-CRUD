@@ -1,38 +1,32 @@
-<?php
+<!DOCTYPE html>
+<html>
 
-require_once '../navbar.html';
-require_once '../header.html';
+<head>
+    <title>Create Authors</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
 
-?>
+<body>
 
+    <body>
+        <div class="container">
+            <div style="height:50px;"></div>
+            <div class="well" style="margin-left:auto; margin-right:auto; padding:auto; width:70%;">
+                <h4><strong>Create Authors</strong></h4>
 
-<div class="row">
-    <h4 class="col-12 mb-3">All Authors</h4>
-    <a type="submit" class="btn btn-success col-2 mb-4 ml-3 p-1" href="create.php">Create Author</a>
-</div>
-<table class="table table-dark">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Author</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php
+                <span><a id="add" style="cursor:pointer;" class="btn btn-success col-2 mb-4 ml-3 p-1"><span class="glyphicon glyphicon-plus"></span> Add New</a></span>
+                <div style="height:15px;"></div>
+                <div id="table"></div>
+                <div id="alert" class="alert alert-success">
+                    <center><span id="alerttext"></span></center>
+                </div>
 
-        require_once '../models/Author.php';
-        $author = new Author;
-        foreach ($author->fetchAll() as $row) :
-            ?>
-            <tr>
-                <td><?= $row->id; ?></td>
-                <td><?= $row->author; ?></td>
-                <td><a class="btn btn-sm btn-primary" href="edit.php?id=<?= $row->id; ?>">Edit</a> &nbsp; <a class="btn btn-sm btn-danger" href="delete.php?id=<?= $row->id; ?>">Delete</a></td>
-            </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+                <?php include('../modal/modal.php'); ?>
 
+                <script src="../db/BaseModel.js"></script>
+            </div>
+    </body>
 
-<?php require_once '../header.html'; ?>
+</html>
