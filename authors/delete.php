@@ -1,8 +1,9 @@
 <?php
 require_once "../models/Author.php";
 
-if (isset($_POST['author'])) {
+if (isset($_POST['deleteAuthor'])) {
 
     $author = new Author;
-    $author->author = $_POST['author'];
+    $author->author = $_POST['deleteAuthor'];
+    $id->id = $_POST['id'];
 }

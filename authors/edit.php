@@ -1,8 +1,8 @@
 <?php
 
 require_once "../models/Author.php";
-if (isset($_POST['author'])) {
+if (isset($_POST['editAuthor'])) {
     $author = new Author;
-    $author->author = $_POST['author'];
+    $author->author = $_POST['editAuthor'];
     $id->id = $_POST['id'];
 }

@@ -18,8 +18,8 @@ if (isset($_POST['handler'])) {
                     <th scope="row"><?= $row->id; ?></th>
                     <td><span id="author<?= $row->id; ?>"><?= $row->author; ?></span></td>
                     <td>
-                        <a style="cursor:pointer;" class="btn btn-sm btn-primary" data-id="<?= $row->id; ?>"> Edit</a>&nbsp;
-                        <a style="cursor:pointer;" class="btn btn-sm btn-danger" data-id="<?= $row->id; ?>"> Delete</a>
+                        <a style="cursor:pointer;" class="btn btn-sm btn-primary edit" data-id="<?= $row->id; ?>"> Edit</a>&nbsp;
+                        <a style="cursor:pointer;" class="btn btn-sm btn-danger delete" data-id="<?= $row->id; ?>"> Delete</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
